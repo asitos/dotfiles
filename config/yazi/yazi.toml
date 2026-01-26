@@ -1,0 +1,12 @@
+[opener]
+edit = [
+    { run = 'nvim "$@"', block = true, desc = "Edit", for = "unix" }
+]
+
+[open]
+rules = [
+    # Set text files to use 'edit' first
+    { mime = "text/*", use = [ "edit", "reveal" ] },
+    # Fallback for files without extensions
+    { name = "*", use = [ "edit", "open", "reveal" ] },
+]

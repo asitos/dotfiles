@@ -1,0 +1,5 @@
+.env
+private/
+id_rsa
+*.key
+history
