@@ -9,19 +9,27 @@
     "modules-left": [
         "clock",
         "hyprland/workspaces",
-        "custom/cava"
+        "custom/waybar-scrolling-mpris",
+    //    "custom/cava",
+        "mpris"
     ],
-    "modules-center": ["hyprland/window"], 
+    "modules-center": [
+        "custom/cava-left",
+        "hyprland/window",
+        "custom/cava-right"
+    ], 
     "modules-right": [
         "tray",
     //   "memory",
-    //   "cpu",
+    	"custom/powerprofile",
+    //	"temperature",
+    //    "cpu",
         "network",
-    //   "backlight",
-        "custom/waybar-scrolling-mpris",
-        "mpris",
         "pulseaudio",
         "bluetooth",
+        "custom/buds",
+        "backlight",
+      	"battery",
         "custom/power"
     //  "pulseaudio#microphone"
     ],
@@ -45,7 +53,7 @@
     },
 
     "clock": {
-      "format": "{:%a, %d %b 󰄛  %I:%M %p}",
+      "format": "{:%a, %d %b 󰄛 %I:%M %p}",
         "interval": 1,
         "rotate": 0,
         "tootip": true,
@@ -70,7 +78,7 @@
         "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "brightnessctl set 1%+",
         "on-scroll-down": "brightnessctl set 1%-",
-        "min-length": 6
+        "min-length": 3
     },
 
     "battery": {
@@ -87,13 +95,14 @@
     },
 
     "mpris": {
-    "format": "{player_icon} : {title}",
-    "format-paused": "{status_icon} : <i>{title}</i>",
-    "player-icons": {
-        "default": "<span>󰎆</span>",
-        "spotify": "<span></span>",
-        "firefox": "<span>󰈹</span>",
-        "chrome": "<span></span>"
+      "player": "spotify",
+      "format": "{player_icon} : {title}",
+      "format-paused": "{status_icon} : <i>{title}</i>",
+      "player-icons": {
+          "default": "<span>󰎆</span>",
+          "spotify": "<span></span>",
+          "firefox": "<span>󰈹</span>",
+          "chrome": "<span></span>"
     },
 
     "custom/waybar-scrolling-mpris": {
@@ -119,14 +128,13 @@
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous",
     "smooth-scrolling-threshold": 1
-    },
-    
-    "custom/cava": {
-        "exec": "~/.config/waybar/scripts/waybar-cava",
-        "interval": -1,
-        "tooltip": false
-    },
+    }, 
 
+"custom/cava": {
+    "exec": "~/.config/waybar/scripts/waybar-cava",
+    "format": "{}",
+    "tooltip": false
+},
     "custom/spotify": {
     "exec": "playerctl --player=spotify metadata --format '{{ artist }} - {{ title }}' --follow | zscroll -l 20 --delay 0.3 --update_check true",
     "format": "󰄛  {}",
@@ -149,6 +157,7 @@
         "tooltip": true,
         "format-muted": "  Muted",
         "on-click": "pavucontrol",
+	"min-length": 5,
         // "on-scroll-up": "pamixer -i 1",
         // "on-scroll-down": "pamixer -d 1",
         "scroll-step": 5,
@@ -186,6 +195,29 @@
         "scroll-step": 5
       },
 */
+"custom/buds": {
+        "exec": "~/.config/waybar/scripts/buds-battery.sh",
+        "interval": 5,
+        "format": "{}",
+        "return-type": "json",
+        "tooltip": true
+  },
+
+"custom/powerprofile": {
+    "exec": "~/.config/Scripts/power_status.sh",
+    "return-type": "json",
+    "interval": 2,
+    "signal": 8,
+    "on-click": "~/.config/Scripts/power_toggle.sh"
+},
+
+     "temperature": {
+         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input", // Uncomment if auto-detect fails
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-critical": "{icon} {temperatureC}°C 🔥",
+        "format-icons": ["", "", ""]
+    },
 
     "memory": {
         "states": {
@@ -221,5 +253,30 @@
         "tooltip-format-disconnected": "Disconnected",
         "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
         "interval": 2
-    }
+    },
+
+
+// Add these modules to your ~/.config/waybar/modules.json
+
+"custom/cava-left": {
+    "exec": "~/.config/ml4w/scripts/cava-waybar.sh",
+    "format": "{}",
+    "return-type": "",
+    "interval": 0,
+    "escape": false,
+    "tooltip": false,
+    "on-click": "~/.config/waybar/scripts/cava-opener.sh top"
+},
+
+"custom/cava-right": {
+    "exec": "~/.config/ml4w/scripts/cava-waybar.sh",
+    "format": "{}",
+    "return-type": "",
+    "interval": 0,
+    "escape": false,
+    "tooltip": false,
+    "on-click": "~/.config/waybar/scripts/cava-opener.sh bottom"
 }
+
+// Note: If you don't have ML4W's cava-waybar.sh, replace "exec" with a static icon:
+}// "format": " 🎵

@@ -3,9 +3,10 @@
     border-radius: 0;
     font-family: JetBrainsMono Nerd Font, monospace;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
     min-height: 0;
     color: #cba6f7;
+    margin-top: 0.5px;
 }
 
 window {
@@ -13,6 +14,7 @@ window {
     padding: 0 10px;
     background: transparent;
     color: #cba6f7;
+    margin-top: 1px;
 }
 
 window#waybar {
@@ -55,18 +57,21 @@ window#waybar {
 
 /* Base style for all workspace buttons */
 #workspaces button {
-    padding: 0 5px;
+    padding: 0 2px 2px 2px;
+		margin-right: 4px;
+		margin-top: 0px;
     background: transparent;
+		border-radius: 10px;
     color: #585b70;          /* Dimmed gray for inactive ones */
-    border-bottom: 3px solid transparent;
+    /* border-bottom: 3px solid transparent; */
     transition: all 0.3s ease;
 }
 
 /* ACTIVE: The workspace you are currently on */
 #workspaces button.active {
-    color: #cba6f7;
-    border-bottom: 3px solid #cba6f7;
-    background: rgba(203, 166, 247, 0.1); /* Very subtle purple glow */
+    color: #cba6ff;
+    /* border-bottom: 3px solid #cba6f7; */
+    background: rgba(203, 166, 247, 0.2); /* Very subtle purple glow */
 }
 
 /* FOCUSED: The workspace that has the keyboard focus */
@@ -80,7 +85,7 @@ window#waybar {
 /* URGENT: When an app needs attention (like a Discord ping) */
 #workspaces button.urgent {
     color: #f38ba8;          /* Red/Pink for urgency */
-    border-bottom: 3px solid #f38ba8;
+    /* border-bottom: 3px solid #f38ba8; */
     animation: blinker 1s linear infinite;
 }
 
@@ -101,8 +106,10 @@ window#waybar {
 #pulseaudio,
 #custom-cava,
 #custom-power,
+#custom-buds,
 #network,
 #cpu,
+#temperature,
 #memory,
 #workspaces,
 #tray,
@@ -110,7 +117,7 @@ window#waybar {
 #bluetooth {
     background: #1e1e2e;
     padding: 0px 10px;
-    margin: 5px 2px 0px 2px;
+    margin: 2px 1px 0px 2px;
     border-radius: 10px;
     /* border: 1px solid #181825; */
 }
@@ -128,14 +135,20 @@ window#waybar {
 #workspaces {
     background: #1e1e2e;
     border-radius: 10px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     padding-right: 0px;
+    padding-top: 2px;
     padding-left: 5px;
 }
 
 #cpu {
     border-radius: 0px 10px 10px 0px;
-    margin-right: 10px;
+    /* margin-right: 10px; */
+    margin-left: 0px;
+}
+
+#temperature {
+    border-radius: 10px 0px 0px 10px;
 }
 
 #memory {
@@ -164,17 +177,17 @@ window#waybar {
 }
 
 #mpris {
-    background: #313244; /* Slightly lighter than the main bar */
+    background: #1e1e2e;
     color: #cba6f7;      /* Lavender text */
     padding: 0 5px;
-    margin: 5px 5px 0 5px;
+    margin: 2px 2px 0 5px;
     border-radius: 10px;
     transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 #mpris.playing {
     /* border-bottom: 2px solid #cba6f7; */
-    box-shadow: 0 0 5px rgba(203, 166, 247, 0.4);
+    /* box-shadow: 0 0 5px rgba(203, 166, 247, 0.4); */
 }
 
 #mpris.paused {
@@ -183,7 +196,7 @@ window#waybar {
 
 #pulseaudio, #bluetooth {
     background: #1e1e2e;
-    margin-top: 5px;
+    /* margin-top: 0px; */
     /* margin-bottom: 3px; */
     padding: 0 10px;
 }
@@ -191,27 +204,32 @@ window#waybar {
 #pulseaudio {
     color: #cba6f7;
     /* border-radius: 10px 0px 0px 10px; */
-    margin-right: 5px;
+    margin-right: 2px;
+    margin-left: 2px;
 }
 
 #custom-cava {
-    padding: 2px 12px 2px 12px;
+    padding: 0px 15px 0px 15px;
+    min-width: 140px;
 }
 
 #custom-power {
-    border-radius: 10px;
+    border-radius: 0px 10px 10px 0px;
     padding: 0 5px 0 10px;
+    margin-right: 5px;
 }
 
 #bluetooth {
     color: #cba6f7;
     border-radius: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 #bluetooth.connected {
     color: #cba6f7;
     /* Optional: add a subtle background if connected */
-    background-color: rgba(203, 166, 247, 0.1);
+    background-color: #1e1e2e;
     border-radius: 8px;
 }
 
@@ -228,7 +246,34 @@ window#waybar {
 /* } */
 
 #battery {
-    color:#a6adc8;
-    border-radius: 0px 10px 10px 0px;
-    margin-right: 10px;
+    color:#cba6f7;
+    border-radius: 10px 0px 0px 10px;
+    margin-right: 0px;
+    margin-left: 2px;
+}
+
+#custom-powerprofile {
+    background-color: #1e1e2e;
+    padding: 0px 12px 0px 8px;
+    margin: 2px 1px 0px 2px;
+    border-radius: 10px;
+}
+
+#custom-powerprofile.performance {
+    color: #f38ba8; /* Catppuccin Red */
+}
+
+#custom-powerprofile.balanced {
+    color: #89b4fa; /* Catppuccin Blue */
+}
+
+#custom-powerprofile.power-saver {
+    color: #a6e3a1; /* Catppuccin Green */
+}
+
+/* Your normal styling for when it is visible */
+#custom-buds.empty {
+    padding: 0;
+    margin: 0;
+    background: transparent;
 }

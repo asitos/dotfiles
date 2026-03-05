@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
-bar="▁▂▃▄▅▆▇█"
-dict="s/;//g"
-space=" "
+# 1. Configuration
+config_file="$HOME/.config/cava/config-waybar"
 
+# 2. Define the bars (0 to 7)
+# Note: Ensure the 0 is a standard SPACE, not an invisible unicode char.
+bar=" ▂▃▄▅▆▇█"
+
+# 3. Build the dictionary
+# We removed the ${space} variable to prevent rendering glitches.
+dict="s/;//g;"
 bar_length=${#bar}
 
 for ((i = 0; i < bar_length; i++)); do
-    dict+=";s/$i/${bar:$i:1}${space}/g"
+    dict+="s/$i/${bar:$i:1}/g;"
 done
 
-config_file="/home/asitos/.config/cava/config-waybar"
-
+# 4. Run Cava
 pkill -f "cava -p $config_file"
-
 cava -p "$config_file" | sed -u "$dict"
