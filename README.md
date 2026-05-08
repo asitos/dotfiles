@@ -22,7 +22,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
   <p><i>hyprland animations and workflow</i></p>
 </div>
 
-> wallpaper can be found [here](https://github.com/asitos/dotfiles/assets/lavender-spiderman.png)
+> wallpaper can be found [here](https://github.com/asitos/dotfiles/blob/main/assets/lavender-spiderman.png?raw=true)
 
 ---
 
