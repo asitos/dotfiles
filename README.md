@@ -34,7 +34,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 - **terminal:** kitty
 - **bar:** waybar
 - **shell:** bash
-- **launcher:** rofi (wayland fork)
+- **launcher:** tofi 
 
 ### structure
 
@@ -45,4 +45,4 @@ most of the interesting stuff is sitting right inside `/.config/`.
 ├── hypr/       # window manager rules, animations, and keybinds
 ├── kitty/      # terminal emulator styling
 ├── waybar/     # status bar layout and css
-└── rofi/       # app launcher config
+└── tofi/       # app launcher config
