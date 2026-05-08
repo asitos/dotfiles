@@ -15,8 +15,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
   <p><i>clean workspace</i></p>
 
   <br />
-
-  <video src="./assets/showcase-demo.mp4" width="100%" controls></video>
+<video src="https://github.com/asitos/dotfiles/raw/main/assets/showcase-demo.mp4" width="100%" controls></video>
   <p><i>hyprland animations and workflow</i></p>
 </div>
 
