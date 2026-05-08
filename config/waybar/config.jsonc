@@ -22,7 +22,7 @@
         "tray",
     //   "memory",
     	"custom/powerprofile",
-    //	"temperature",
+    	"temperature",
     //    "cpu",
         "network",
         "pulseaudio",
@@ -212,7 +212,8 @@
 },
 
      "temperature": {
-         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input", // Uncomment if auto-detect fails
+//         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input", // Uncomment if auto-detect fails
+"hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input",
         "critical-threshold": 80,
         "format": "{icon} {temperatureC}°C",
         "format-critical": "{icon} {temperatureC}°C 🔥",
@@ -252,7 +253,8 @@
         "format-disconnected": "󰖪 ",
         "tooltip-format-disconnected": "Disconnected",
         "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
-        "interval": 2
+        "interval": 2,
+        "on-click": "nm-connection-editor"
     },
 
 
