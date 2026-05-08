@@ -1,3 +1,6 @@
+
+
+
 # dotfiles
 
 my personal setup for arch linux + hyprland. i like keeping things fast, minimal, and out of the way so i can focus on writing code.
@@ -15,7 +18,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
   <p><i>clean workspace</i></p>
 
   <br />
-<video src="https://github.com/asitos/dotfiles/raw/main/assets/showcase-demo.mp4" width="100%" controls></video>
+<video src="https://github.com/user-attachments/assets/a559e458-2bc6-4175-9c47-d9ae2b86e17c" width="100%" controls></video>
   <p><i>hyprland animations and workflow</i></p>
 </div>
 
