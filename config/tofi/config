@@ -1,0 +1,205 @@
+# --- Window Geometry (Fullscreen) ---
+width = 100%
+height = 100%
+border-width = 0
+outline-width = 0
+
+# --- Layout (Minimalist Center) ---
+padding-top = 35%
+padding-left = 35%
+padding-right = 35%
+result-spacing = 25
+num-results = 5
+
+# --- Text & Font ---
+font = "JetBrainsMono Nerd Font"
+font-size = 24
+prompt-text = "nvim ~/.config/tofi/config# --- Window Geometry (Fullscreen) ---
+width = 100%
+height = 100%
+border-width = 0
+outline-width = 0
+
+# --- Layout (Minimalist Center) ---
+padding-top = 35%
+padding-left = 35%
+padding-right = 35%
+result-spacing = 25
+num-results = 5
+
+# --- Text & Font ---
+font = "JetBrainsMono Nerd Font"
+font-size = 24
+prompt-text = " 🐱  "
+prompt-padding = 0
+# --- Window Geometry (Fullscreen) ---
+width = 100%
+height = 100%
+border-width = 0
+outline-width = 0
+
+# --- Layout (Minimalist Center) ---
+padding-top = 35%
+padding-left = 35%
+padding-right = 35%
+result-spacing = 25
+num-results = 5
+
+# --- Text & Font ---
+font = "JetBrainsMono Nerd Font"
+font-size = 24
+prompt-text = " 🐱  "
+prompt-padding = 0
+
+# --- Colors (Catppuccin Mocha + Lavender) ---
+
+# Background: Mocha Base with 80% Opacity (The "CC" at the end makes it translucent)
+background-color = #1e1e2eCC
+
+# Input Text: Lavender
+input-color = #b4befe
+
+# Unselected Text: Overlay1 (Subtle Grey)
+text-color = #7f849c
+
+# Selection Text: Lavender (Bold)
+selection-color = #b4befe
+
+# Selection Background: Transparent (We only highlight the text color for minimalism)
+selection-background = #00000000<ScrollWheelDown>
+# --- Colors (Catppuccin Mocha + Lavender) ---
+
+# Background: Mocha Base with 80% Opacity (The "CC" at the end makes it translucent)
+background-color = #1e1e2eCC
+
+# Input Text: Lavender
+input-color = #b4befe
+
+# Unselected Text: Overlay1 (Subtle Grey)
+text-color = #7f849c
+
+# Selection Text: Lavender (Bold)
+selection-color = #b4befe
+
+# Selection Background: Transparent (We only highlight the text color for minimalism)
+selection-background = #00000000  "# --- Window Geometry (Fullscreen) ---
+width = 100%
+height = 100%
+border-width = 0
+outline-width = 0
+
+# --- Layout (Minimalist Center) ---
+padding-top = 35%
+padding-left = 35%
+padding-right = 35%
+result-spacing = 25
+num-results = 5
+
+# --- Text & Font ---
+font = "JetBrainsMono Nerd Font"
+font-size = 24
+prompt-text = " 🐱  "
+prompt-padding = 0
+
+# --- Colors (Catppuccin Mocha + Lavender) ---
+
+# Background: Mocha Base with 80% Opacity (The "CC" at the end makes it translucent)
+background-color = #1e1e2eCC
+
+# Input Text: Lavender
+input-color = #b4befe
+
+# Unselected Text: Overlay1 (Subtle Grey)
+text-color = #7f849c
+
+# Selection Text: Lavender (Bold)
+selection-color = #b4befe
+
+# Selection Background: Transparent (We only highlight the text color for minimalism)
+selection-background = #00000000# --- Window Geometry (Fullscreen) ---
+width = 100%
+height = 100%
+border-width = 0
+outline-width = 0
+
+# --- Layout (Minimalist Center) ---
+padding-top = 35%
+padding-left = 35%
+padding-right = 35%
+result-spacing = 25
+num-results = 5
+
+# --- Text & Font ---
+font = "JetBrainsMono Nerd Font"
+font-size = 24
+prompt-text = " 🐱  "
+prompt-padding = 0
+
+# --- Colors (Catppuccin Mocha + Lavender) ---
+
+# Background: Mocha Base with 80% Opacity (The "CC" at the end makes it translucent)
+background-color = #1e1e2eCC
+
+# Input Text: Lavender
+input-color = #b4befe
+
+# Unselected Text: Overlay1 (Subtle Grey)
+text-color = #7f849c
+
+# Selection Text: Lavender (Bold)
+selection-color = #b4befe
+
+# Selection Background: Transparent (We only highlight the text color for minimalism)
+selection-background = #00000000# --- Window Geometry (Fullscreen) ---
+width = 100%
+height = 100%
+border-width = 0
+outline-width = 0
+
+# --- Layout (Minimalist Center) ---
+padding-top = 35%
+padding-left = 30%
+padding-right = 0%
+result-spacing = 20
+num-results = 5
+
+# --- Text & Font ---
+font = "JetBrainsMono Nerd Font"
+font-size = 24
+prompt-text = "󰄛 :  "
+prompt-padding = 0
+
+# --- Colors (Catppuccin Mocha + Lavender) ---
+
+# Background: Mocha Base with 80% Opacity (The "CC" at the end makes it translucent)
+background-color = #1e1e2eCC
+
+# Input Text: Lavender
+input-color = #b4befe
+
+# Unselected Text: Overlay1 (Subtle Grey)
+text-color = #7f849c
+
+# Selection Text: Lavender (Bold)
+selection-color = #b4befe
+
+# Selection Background: Transparent (We only highlight the text color for minimalism)
+selection-background = #00000000
+prompt-padding = 0
+
+# --- Colors (Catppuccin Mocha + Lavender) ---
+
+# Background: Mocha Base with 80% Opacity (The "CC" at the end makes it translucent)
+background-color = #1e1e2eCC
+
+# Input Text: Lavender
+input-color = #b4befe
+
+# Unselected Text: Overlay1 (Subtle Grey)
+text-color = #7f849c
+
+# Selection Text: Lavender (Bold)
+selection-color = #b4befe
+
+# Selection Background: Transparent (We only highlight the text color for minimalism)
+selection-background = #00000000
