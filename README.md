@@ -33,7 +33,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 - **wm:** hyprland (wayland)
 - **terminal:** kitty
 - **bar:** waybar
-- **shell:** bash
+- **shell:** fish
 - **launcher:** tofi 
 
 ### structure
