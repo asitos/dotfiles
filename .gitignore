@@ -3,3 +3,5 @@ private/
 id_rsa
 *.key
 history
+*.png
+!assets/*.png
