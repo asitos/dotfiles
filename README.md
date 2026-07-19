@@ -1,6 +1,3 @@
-
-
-
 # dotfiles
 
 my personal setup for arch linux + hyprland. i like keeping things fast, minimal, and out of the way so i can focus on writing code.
@@ -24,7 +21,6 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 
 > wallpaper can be found [here](https://github.com/user-attachments/assets/1c7ea0be-eb52-4327-9eea-1d4f35d7b180)
 
-
 ---
 
 ### the stack
@@ -34,15 +30,25 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 - **terminal:** kitty
 - **bar:** waybar
 - **shell:** fish
+- **notifs:** mako
+- **clipboard:** clipse
+- **editor:** neovim (with lazyvim and nvchad)
 - **launcher:** tofi 
 
 ### structure
 
-most of the interesting stuff is sitting right inside `/.config/`. 
+most of the interesting stuff is sitting right inside `/config/`. 
 
 ```text
-.config/
-├── hypr/       # window manager rules, animations, and keybinds
-├── kitty/      # terminal emulator styling
-├── waybar/     # status bar layout and css
-└── tofi/       # app launcher config
+config/
+├── btop
+├── clipse
+├── hypr
+├── kitty
+├── mako
+├── nvim
+├── qBittorrent
+├── tofi
+├── waybar
+└── yazi
+```
