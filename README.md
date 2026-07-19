@@ -23,7 +23,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 
 ---
 
-### the stack
+### things used
 
 - **os:** arch linux
 - **wm:** hyprland (wayland)
@@ -36,8 +36,6 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 - **launcher:** tofi 
 
 ### structure
-
-most of the interesting stuff is sitting right inside `/config/`. 
 
 ```text
 config/
