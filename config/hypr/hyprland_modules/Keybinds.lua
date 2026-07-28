@@ -28,6 +28,7 @@ hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("/home/asitos/.config/Scripts
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.config/Scripts/power_toggle.sh"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprshutdown"), { description = "reload hyprland" })
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("bluetoothctl connect 10:E4:C2:5F:84:6E && killall galaxybudsclient; sleep 2; galaxybudsclient /StartMinimized &"))
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("lutris"))
 
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
