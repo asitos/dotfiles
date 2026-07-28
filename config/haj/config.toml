@@ -1,0 +1,9 @@
+# haj package manager configuration
+
+[general]
+aur_only = false
+repo_only = false
+verbose = false
+diff_prog = "vimdiff"
+build_dir = "/home/asitos/.cache/haj/aur"
+animations = true
