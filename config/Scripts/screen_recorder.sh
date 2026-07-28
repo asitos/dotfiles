@@ -1,55 +1,76 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 RECORD_DIR="$HOME/Pictures/Recordings"
-DEVICE_NAME=""
-TEMP_FILE="/tmp/screen_recorder_last.txt"
+TEMP_FILE="/tmp/wfr_last_file"
+PID_FILE="/tmp/wfr.pid"
+
 mkdir -p "$RECORD_DIR"
 
-if pgrep -f "gpu-screen-recorder" > /dev/null; then
-    # Stop recording
-    pkill -f gpu-screen-recorder
-    sleep 0.5
-    notify-send "✅ Recording Stopped" "Saved in $HOME/Pictures/Recordings/" -t 3000
+start_recording() {
+    MONITOR=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')
 
-    # Share via KDE Connect
-    FILENAME=$(cat "$TEMP_FILE" 2>/dev/null)
-    if [ -z "$FILENAME" ]; then
-        notify-send "Send failed" "Filename not found"
+    if [[ -z "$MONITOR" || "$MONITOR" == "null" ]]; then
+        notify-send "❌ Recording failed" "Couldn't determine focused monitor."
         exit 1
     fi
 
-    if ! pgrep -x kdeconnectd >/dev/null; then
-        kdeconnectd &
-        sleep 2
+    FILENAME="Screen_recording_$(date +"%d%m%Y_%H%M%S").mp4"
+    OUTPUT="$RECORD_DIR/$FILENAME"
+
+    notify-send "🔴 Recording Started" "Monitor: $MONITOR"
+
+    wf-recorder \
+        --audio \
+        -o "$MONITOR" \
+        -f "$OUTPUT" >/dev/null 2>&1 &
+
+    PID=$!
+
+    sleep 1
+
+    if ! kill -0 "$PID" 2>/dev/null; then
+        notify-send "❌ Recording failed" "wf-recorder exited immediately."
+        exit 1
     fi
 
-    if [ -n "$DEVICE_NAME" ]; then
-        DEVICE_ID=$(kdeconnect-cli -a | grep "$DEVICE_NAME" | cut -d':' -f1)
-    else
-        DEVICE_ID=$(kdeconnect-cli -a --id-only | head -n 1)
-    fi
-
-    if [ -n "$DEVICE_ID" ]; then
-        if kdeconnect-cli -d "$DEVICE_ID" --share "$RECORD_DIR/$FILENAME"; then
-            notify-send "Sent to phone" "$(basename "$FILENAME")"
-        else
-            notify-send "Send failed" "Saved locally"
-        fi
-    else
-        notify-send "No device found" "Saved locally"
-    fi
-
-    rm -f "$TEMP_FILE"
-else
-    # Start recording
-    FILENAME="Screen_recording_$(date +"%d%m%Y_%H%M%S").mkv"
+    echo "$PID" > "$PID_FILE"
     echo "$FILENAME" > "$TEMP_FILE"
-    notify-send "🔴 Recording Started" "Press SUPER+SHIFT+R again to stop" -t 2000
+}
 
-    gpu-screen-recorder \
-        -w screen \
-        -f 60 \
-        -q ultra \
-        -a default_output \
-        -o "$RECORD_DIR/$FILENAME" &
+stop_recording() {
+    if [[ ! -f "$PID_FILE" ]]; then
+        notify-send "Recording" "No active recording."
+        exit 0
+    fi
+
+    PID=$(cat "$PID_FILE")
+
+    if kill -0 "$PID" 2>/dev/null; then
+        kill -INT "$PID"
+
+        while kill -0 "$PID" 2>/dev/null; do
+            sleep 0.2
+        done
+    fi
+
+    rm -f "$PID_FILE"
+
+    FILENAME=$(cat "$TEMP_FILE" 2>/dev/null || true)
+    rm -f "$TEMP_FILE"
+
+    FILE="$RECORD_DIR/$FILENAME"
+
+    if [[ -n "$FILENAME" && -f "$FILE" ]]; then
+        notify-send "✅ Recording Saved" "$FILENAME\nLocation: $RECORD_DIR"
+    else
+        notify-send "⚠️ Recording Stopped" "Output file not found."
+    fi
+}
+
+if [[ -f "$PID_FILE" ]]; then
+    stop_recording
+else
+    start_recording
 fi

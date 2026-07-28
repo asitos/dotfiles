@@ -21,5 +21,36 @@ hl.config({
 
   xwayland = {
     force_zero_scaling = true
-  }
+  },
+
+  render = {
+    direct_scanout = auto,
+    expand_undersized_textures = true,
+
+    xp_mode = false,
+
+    ctm_animation = 2,
+
+    cm_enabled = true,
+    cm_auto_hdr = 1,
+    cm_sdr_eotf = default,
+    non_shader_cm = 3,
+    non_shader_cm_interop = 2,
+
+    send_content_type = true,
+
+    new_render_scheduling = false,
+
+    commit_timing_enabled = true,
+
+    use_fp16 = 2,
+    fp16_sdr_tf = 0,
+
+    keep_unmodified_copy = 2,
+
+    use_shader_blur_blend = false,
+
+    icc_vcgt_enabled = true,
+ 
+  },
 })
