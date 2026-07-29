@@ -35,8 +35,17 @@ hl.window_rule({
 
 hl.window_rule({
     name = "music",
-    match = { class = "^(spotify|spotify-launcher)$" },
+    match = { 
+      class = "([Ss]potify)",
+      initial_title = "Spotify Premium",
+    },
+    float = on,
+    center = on,
+
+    size = { "(monitor_w*0.9)", "(monitor_h*0.9)" },
     workspace = "special:spotify silent",
+    suppress_event = "actiavte activatefocs",
+    no_initial_focus = true,
 })
 
 hl.window_rule({
