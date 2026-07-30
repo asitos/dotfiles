@@ -13,8 +13,7 @@ hl.window_rule({
 
 hl.window_rule({
   name  = "clipse-floater",
-  match = { class = "^(clipse)$" },
-  match = { title = "^(clipse-floating)$" },
+  match = { class = "^(clipse)$", title = "^(clipse-floating)$" },
   float = true,
   move = {10,10},
   size = {600,400},
@@ -44,14 +43,13 @@ hl.window_rule({
 
     size = { "(monitor_w*0.9)", "(monitor_h*0.9)" },
     workspace = "special:spotify silent",
-    suppress_event = "actiavte activatefocs",
+    suppress_event = "activate activatefocus",
     no_initial_focus = true,
 })
 
 hl.window_rule({
   name = "beeper-workspace-class",
-  match = { title = "^(beeper)$" },
-  match = { class = "^(beeper)$" },
+  match = { title = "^(beeper)$", class = "^(beeper)$" },
   workspace = "3 silent",
 })
 
