@@ -20,6 +20,8 @@ if status is-interactive
     export WECHALLTOKEN="81116-7FA02-33D37-A8260-D8418-CF7A0"
     umask 0022
     alias dotfiles="~/Projects/dotfiles/sync.sh"
+    alias ds="dotfiles save"
+    alias da="dotfiles apply"
     alias l="eza --icons --all --long --git --no-user"
     alias ls="eza --icons"
     alias tree="eza --tree --icons --level=2"
