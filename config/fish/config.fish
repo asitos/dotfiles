@@ -101,3 +101,14 @@ set fish_cursor_default block
 set fish_cursor_insert line
 set fish_cursor_replace_one underscore
 set fish_cursor_visual block
+
+function nvim
+    # Remove margin
+    kitty @ set-spacing margin=0
+    
+    # Run normal Neovim and pass any arguments (like file names) to it
+    command nvim $argv
+    
+    # Restore margin when Neovim closes
+    kitty @ set-spacing margin=12
+end
