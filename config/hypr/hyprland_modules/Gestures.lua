@@ -37,4 +37,4 @@ hl.gesture({
 	action = "float",
 })
 
-hl.plugin.scrolloverview.gesture({ fingers = 4, direction = "vertical", disable_inhibit = true })
+-- hl.plugin.scrolloverview.gesture({ fingers = 4, direction = "vertical", disable_inhibit = true })

@@ -135,23 +135,18 @@ hl.bind("SUPER + G", function()
 	hl.plugin.scrolloverview.overview("toggle all")
 end)
 
-hl.define_submap("scrolloverview", function()
-	hl.bind("H", hl.plugin.scrolloverview.navigate("left"))
-	hl.bind("L", hl.plugin.scrolloverview.navigate("right"))
-	hl.bind("K", hl.plugin.scrolloverview.navigate("up"))
-	hl.bind("J", hl.plugin.scrolloverview.navigate("down"))
-	hl.bind("return", hl.plugin.scrolloverview.overview("select"))
-	hl.bind("escape", hl.plugin.scrolloverview.overview("off"))
-	hl.bind("mouse:272", function()
-		-- Select the clicked window, or just the workspace if no window was clicked, then close the overview. This is the default behaviour if submap is not defined.
-		hl.plugin.scrolloverview.overview("select")
-		hl.plugin.scrolloverview.window("select")
-		hl.plugin.scrolloverview.overview("off")
-	end, { mouse = true })
-	hl.bind("mouse:274", hl.plugin.scrolloverview.window("close"), { mouse = true })
-end)
-
-for i = 1, 10 do
-	local key = i % 10
-	hl.bind("ALT + " .. key, hl.dsp.focus({ workspace = i }), { submap_universal = true })
-end
+-- hl.define_submap("scrolloverview", function()
+-- 	hl.bind("H", hl.plugin.scrolloverview.navigate("left"))
+-- 	hl.bind("L", hl.plugin.scrolloverview.navigate("right"))
+-- 	hl.bind("K", hl.plugin.scrolloverview.navigate("up"))
+-- 	hl.bind("J", hl.plugin.scrolloverview.navigate("down"))
+-- 	hl.bind("return", hl.plugin.scrolloverview.overview("select"))
+-- 	hl.bind("escape", hl.plugin.scrolloverview.overview("off"))
+-- 	hl.bind("mouse:272", function()
+-- 		-- Select the clicked window, or just the workspace if no window was clicked, then close the overview. This is the default behaviour if submap is not defined.
+-- 		hl.plugin.scrolloverview.overview("select")
+-- 		hl.plugin.scrolloverview.window("select")
+-- 		hl.plugin.scrolloverview.overview("off")
+-- 	end, { mouse = true })
+-- 	hl.bind("mouse:274", hl.plugin.scrolloverview.window("close"), { mouse = true })
+-- end)
