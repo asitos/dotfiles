@@ -38,7 +38,7 @@ hl.bind(
 		"bluetoothctl connect 10:E4:C2:5F:84:6E && killall galaxybudsclient; sleep 2; galaxybudsclient /StartMinimized &"
 	)
 )
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("lutris"))
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
 
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))

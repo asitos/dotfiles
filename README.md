@@ -15,7 +15,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
   <p><i>clean workspace</i></p>
 
   <br />
-<video src="https://github.com/user-attachments/assets/a559e458-2bc6-4175-9c47-d9ae2b86e17c" width="100%" controls></video>
+<video src="https://github.com/user-attachments/assets/5e5d925c-5244-4cd3-aa16-1169bffc7541" width="100%" controls></video>
   <p><i>hyprland animations and workflow</i></p>
 </div>
 
@@ -33,7 +33,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 - **notifs:** mako
 - **clipboard:** clipse
 - **editor:** neovim (with lazyvim and nvchad)
-- **launcher:** tofi 
+- **launcher:** tofi
 
 ### structure
 
