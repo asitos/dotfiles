@@ -2,6 +2,7 @@ if status is-interactive
 end
 
 fish_add_path /home/asitos/.spicetify
+fish_add_path /home/asitos/.local/bin
 fish_add_path /home/asitos/Downloads/remotegamepad/
 fish_add_path /home/asitos/.config/Scripts/
 fish_add_path /home/asitos/.cargo/bin/
@@ -21,10 +22,10 @@ if status is-interactive
     umask 0022
     alias dotfiles="~/Projects/dotfiles/sync.sh"
     alias ds="dotfiles save"
-    alias da="dotfiles apply"
+    # alias da="dotfiles apply"
     alias l="eza --icons --all --long --git --no-user"
-    alias ls="eza --icons"
     alias tree="eza --tree --icons --level=2"
+    alias pc="pyroclear"
 
     alias cat="bat --theme='Catppuccin Mocha'"
     
@@ -46,6 +47,8 @@ if status is-interactive
     alias y="yazi"
     alias nfc="nvim ~/.config/fish/config.fish"
     alias sfc="source ~/.config/fish/config.fish"
+    alias s="sudo"
+    alias se="sudo -E"
     alias cbr="cargo build --release"
     alias cr="cargo run --"
     alias lg="lazygit"
@@ -114,3 +117,7 @@ function nvim
     # Restore margin when Neovim closes
     kitty @ set-spacing margin=12
 end
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/home/asitos/.local/bin" $PATH

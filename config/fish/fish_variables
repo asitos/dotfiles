@@ -39,7 +39,7 @@ SETUVAR fish_pager_color_completion:cdd6f4
 SETUVAR fish_pager_color_description:6c7086
 SETUVAR fish_pager_color_prefix:f5c2e7
 SETUVAR fish_pager_color_progress:6c7086
-SETUVAR fish_user_paths:/home/asitos/Projects/haj/target/release\x1e/home/asitos/\x2ecargo/bin\x1e/home/asitos/Downloads/totk\x1e/home/asitos/\x2econfig/waybar/scripts\x1e/home/asitos/\x2econfig/Scripts\x1e/home/asitos/Downloads/remotegamepad\x1e/home/asitos/\x2espicetify
+SETUVAR fish_user_paths:/home/asitos/\x2elocal/bin\x1e/home/asitos/Projects/haj/target/release\x1e/home/asitos/\x2ecargo/bin\x1e/home/asitos/Downloads/totk\x1e/home/asitos/\x2econfig/waybar/scripts\x1e/home/asitos/\x2econfig/Scripts\x1e/home/asitos/Downloads/remotegamepad\x1e/home/asitos/\x2espicetify
 SETUVAR tide_aws_bg_color:normal
 SETUVAR tide_aws_color:FF9900
 SETUVAR tide_aws_icon:\uf270
