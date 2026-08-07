@@ -54,6 +54,7 @@ if status is-interactive
     alias lg="lazygit"
     alias mirrors="sudo reflector --country 'India','Singapore' --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
     alias h="haj"
+    alias a="agy"
 
     # ssh
     # custom asitos aliases
