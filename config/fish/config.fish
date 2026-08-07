@@ -55,6 +55,7 @@ if status is-interactive
     alias mirrors="sudo reflector --country 'India','Singapore' --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
     alias h="haj"
     alias a="agy"
+    alias ad="agy --dangerously-skip-permissions"
 
     # ssh
     # custom asitos aliases
