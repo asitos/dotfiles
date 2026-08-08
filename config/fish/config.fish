@@ -41,6 +41,7 @@ if status is-interactive
     alias gcr="git commit -m \"docs: update readme\""
     alias rd="ga && gcr && gp"
     alias gt="git tag -a"
+    alias gl="git log"
     alias gpmas="git push origin master"
     alias n="nvim"
     alias nr="nvim README.md"
