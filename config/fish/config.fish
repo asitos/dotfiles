@@ -45,6 +45,7 @@ if status is-interactive
     alias gpmas="git push origin master"
     alias n="nvim"
     alias nr="nvim README.md"
+    alias ng="nvim .gitignore"
     alias y="yazi"
     alias nfc="nvim ~/.config/fish/config.fish"
     alias sfc="source ~/.config/fish/config.fish"
