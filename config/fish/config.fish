@@ -42,6 +42,7 @@ if status is-interactive
     alias rd="ga && gcr && gp"
     alias gt="git tag -a"
     alias gl="git log"
+    alias gr="git restore"
     alias gpmas="git push origin master"
     alias n="nvim"
     alias nr="nvim README.md"
@@ -58,6 +59,7 @@ if status is-interactive
     alias h="haj"
     alias a="agy"
     alias ad="agy --dangerously-skip-permissions"
+    alias au="antigravity-usage"
 
     # ssh
     # custom asitos aliases

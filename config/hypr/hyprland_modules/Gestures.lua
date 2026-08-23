@@ -25,7 +25,7 @@ hl.gesture({
 })
 
 hl.gesture({
-	fingers = 2,
+	fingers = 3,
 	direction = "pinchout",
 	action = "close",
 })
