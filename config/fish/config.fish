@@ -38,6 +38,8 @@ if status is-interactive
     alias ga="git add ."
     alias gs="git status"
     alias gc="git commit -m"
+    alias gcb="git checkout -b"
+    alias gch="git checkout"
     alias gcr="git commit -m \"docs: update readme\""
     alias rd="ga && gcr && gp"
     alias gt="git tag -a"
