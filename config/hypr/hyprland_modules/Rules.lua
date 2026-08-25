@@ -29,7 +29,7 @@ hl.window_rule({
 hl.window_rule({
 	name = "vesktop-workspace",
 	match = { class = "^(vesktop)$" },
-	workspace = "4 silent",
+	workspace = "5 silent",
 })
 
 hl.window_rule({
