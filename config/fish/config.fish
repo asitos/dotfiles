@@ -47,6 +47,7 @@ if status is-interactive
     alias gr="git restore"
     alias gpmas="git push origin master"
     alias n="nvim"
+    alias sn="sudo -E nvim"
     alias nr="nvim README.md"
     alias ng="nvim .gitignore"
     alias y="yazi"
