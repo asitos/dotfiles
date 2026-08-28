@@ -24,12 +24,12 @@ hl.gesture({
 	mode = "maximize",
 })
 
-hl.gesture({
-	fingers = 3,
-	direction = "pinchout",
-	action = "close",
-})
-
+-- hl.gesture({
+-- 	fingers = 3,
+-- 	direction = "pinchout",
+-- 	action = "close",
+-- })
+--
 hl.gesture({
 	fingers = 3,
 	mods = "SUPER",

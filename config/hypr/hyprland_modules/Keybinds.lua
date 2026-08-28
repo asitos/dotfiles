@@ -26,6 +26,10 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("kitty -e yazi"))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("pkill waybar || waybar"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty --class clipse --title 'clipse-floating' -e clipse"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -s -m region --clipboard-only --freeze"))
+hl.bind(
+	mainMod .. " + SHIFT + c",
+	hl.dsp.exec_cmd("hyprshot -s -m region --freeze -o /home/asitos/Projects/cybersec/screenshots")
+)
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m window"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("/home/asitos/.config/Scripts/ocr.sh"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.config/Scripts/power_toggle.sh"))
