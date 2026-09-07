@@ -2,11 +2,11 @@
 ---- KEYBINDINGS ----
 ---------------------
 
-hl.config({
-	input = {
-		kb_options = "caps:swapescape",
-	},
-})
+-- hl.config({
+-- 	input = {
+-- 		kb_options = "caps:swapescape",
+-- 	},
+-- })
 
 local mainMod = "SUPER"
 local terminal = "kitty"
@@ -43,6 +43,7 @@ hl.bind(
 	)
 )
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind("ALT + SHIFT + L", hl.dsp.exec_cmd("lutris"))
 
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))

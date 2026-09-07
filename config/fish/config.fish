@@ -8,7 +8,7 @@ fish_add_path /home/asitos/.config/Scripts/
 fish_add_path /home/asitos/.cargo/bin/
 fish_add_path /home/asitos/.config/waybar/scripts/
 fish_add_path /home/asitos/Downloads/totk/
-fish_add_path /home/asitos/Projects/haj/target/release/
+fish_add_path /usr/lib/ccache/binish_add_path /home/asitos/Projects/haj/target/release/
 if status is-interactive
     set -gx EDITOR nvim
     set -gx VISUAL nvim
