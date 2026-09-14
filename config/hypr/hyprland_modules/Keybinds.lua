@@ -12,10 +12,12 @@ local mainMod = "SUPER"
 local terminal = "kitty"
 local menu = "tofi-drun --drun-launch=true"
 
+hl.bind("ALT + SHIFT + C", hl.dsp.exec_cmd("~/.config/Scripts/college-mode.sh"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("zen-browser"))
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("obsidian"))
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("beeper"))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("vesktop"))
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("spotify"))
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.window.close(), { repeating = true })
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("remotegamepad &"))
@@ -136,9 +138,9 @@ hl.bind("ALT + SPACE", hl.dsp.workspace.toggle_special("scratch"))
 hl.bind(mainMod .. " + SHIFT + Space", hl.dsp.window.move({ workspace = "special:spotify" }))
 
 -- ScrollOverview.lua
-hl.bind("SUPER + G", function()
-	hl.plugin.scrolloverview.overview("toggle all")
-end)
+-- hl.bind("SUPER + G", function()
+-- 	hl.plugin.scrolloverview.overview("toggle all")
+-- end)
 
 -- hl.define_submap("scrolloverview", function()
 -- 	hl.bind("H", hl.plugin.scrolloverview.navigate("left"))
