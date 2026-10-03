@@ -12,7 +12,7 @@ local mainMod = "SUPER"
 local terminal = "kitty"
 local menu = "tofi-drun --drun-launch=true"
 
-hl.bind("ALT + SHIFT + C", hl.dsp.exec_cmd("~/.config/Scripts/college-mode.sh"))
+hl.bind("ALT + SHIFT + C", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.config/Scripts/college-mode.sh"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("zen-browser"))
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("obsidian"))
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("beeper"))
