@@ -33,13 +33,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "music",
+	name = "music rule",
 	match = {
-		class = "^(Spotify)$",
-		initial_title = "Spotify Premium",
+		class = "^([sS]potify)$",
 	},
-	float = on,
-	center = on,
+	float = true,
+	center = true,
 
 	size = { "(monitor_w*0.9)", "(monitor_h*0.9)" },
 	workspace = "special:spotify silent",
@@ -48,12 +47,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "music",
+	name = "beeper rule",
 	match = {
-		class = "^(beeper)$",
+		class = "^([bB]eeper)$",
 	},
-	float = on,
-	center = on,
+	float = true,
+	center = true,
 
 	size = { "(monitor_w*0.9)", "(monitor_h*0.9)" },
 	workspace = "special:scratch silent",

@@ -24,7 +24,7 @@ hl.config({
   },
 
   render = {
-    direct_scanout = auto,
+    direct_scanout = 2,
     expand_undersized_textures = true,
 
     xp_mode = false,
@@ -33,7 +33,7 @@ hl.config({
 
     cm_enabled = true,
     cm_auto_hdr = 1,
-    cm_sdr_eotf = default,
+    cm_sdr_eotf = "default",
     non_shader_cm = 3,
     non_shader_cm_interop = 2,
 
