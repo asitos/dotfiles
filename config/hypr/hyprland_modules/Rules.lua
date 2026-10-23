@@ -40,7 +40,7 @@ hl.window_rule({
 	float = true,
 	center = true,
 
-	size = { "(monitor_w*0.9)", "(monitor_h*0.9)" },
+	size = { "(monitor_w*0.95)", "(monitor_h*0.95)" },
 	workspace = "special:spotify silent",
 	suppress_event = "activate activatefocus",
 	no_initial_focus = true,
@@ -54,7 +54,7 @@ hl.window_rule({
 	float = true,
 	center = true,
 
-	size = { "(monitor_w*0.9)", "(monitor_h*0.9)" },
+	size = { "(monitor_w*0.95)", "(monitor_h*0.95)" },
 	workspace = "special:scratch silent",
 	suppress_event = "activate activatefocus",
 	no_initial_focus = true,

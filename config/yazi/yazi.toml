@@ -1,0 +1,70 @@
+# ~/.config/yazi/yazi.toml
+[mgr]
+ratio          = [ 1, 4, 3 ]
+linemode       = "size_and_mtime"
+show_hidden    = false
+show_symlink   = true
+scrolloff      = 7
+sort_by        = "mtime"
+sort_reverse   = true
+sort_dir_first = true
+
+[preview]
+wrap     = "yes"
+tab_size = 2
+
+[plugin]
+  prepend_preloaders = [
+    { mime = "{audio,video}/*", run = "mediainfo" },
+    { mime = "application/subrip", run = "mediainfo" },
+    { mime = "application/postscript", run = "mediainfo" },
+  ]
+  prepend_previewers = [
+    { url = "*.md", run = "glow" },
+    { mime = "{audio,video}/*", run = "mediainfo" },
+    { mime = "application/subrip", run = "mediainfo" },
+    { mime = "application/postscript", run = "mediainfo" },
+  ]
+  # There are more extensions which are supported by mediainfo.
+  # Just add file's MIME type to `previewers`, `preloaders` above.
+  # https://mediaarea.net/en/MediaInfo/Support/Formats
+
+# For a large file like Adobe Illustrator, Adobe Photoshop, etc
+# you may need to increase the memory limit if no image is rendered.
+# https://yazi-rs.github.io/docs/configuration/yazi#tasks
+[tasks]
+  image_alloc      = 1073741824        # = 1024*1024*1024 = 1024MB
+
+
+[spot]
+title = { fg = "#cba6f7" }
+tbl_col = { fg = "#b4befe" }
+
+[opener]
+edit = [
+	{ run = 'nvim %s', block = true, desc = "Neovim", for = "unix" },
+]
+play = [
+	{ run = 'mpv %s', orphan = true, desc = "mpv", for = "unix" },
+]
+feh = [
+	{ run = 'feh %s', orphan = true, desc = "feh", for = "unix" },
+]
+imv = [
+	{ run = 'imv %s', orphan = true, desc = "imv", for = "unix" },
+]
+
+[open]
+prepend_rules = [
+	{ mime = "text/html", use = [ "open", "edit" ] },
+	{ url = "*.html", use = [ "open", "edit" ] },
+	{ url = "*.htm", use = [ "open", "edit" ] },
+	{ mime = "text/*", use = "edit" },
+	{ mime = "video/*", use = "play" },
+	{ mime = "image/gif", use = "imv" },
+	{ url = "*.gif", use = "imv" },
+	{ mime = "image/*", use = "feh" },
+	{ url = "*.mp4", use = "play" },
+	{ url = "*.svg", use = "feh" },
+	{ url = "*.json", use = "edit" },
+]
