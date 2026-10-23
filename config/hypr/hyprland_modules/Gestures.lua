@@ -17,19 +17,19 @@ hl.gesture({
 	action = "workspace",
 })
 
-hl.gesture({
-	fingers = 2,
-	direction = "pinchin",
-	action = "fullscreen",
-	mode = "maximize",
-})
+-- hl.gesture({
+-- 	fingers = 2,
+-- 	direction = "pinchin",
+-- 	action = "fullscreen",
+-- 	mode = "maximize",
+-- })
 
 -- hl.gesture({
 -- 	fingers = 3,
 -- 	direction = "pinchout",
 -- 	action = "close",
 -- })
---
+
 hl.gesture({
 	fingers = 3,
 	mods = "SUPER",

@@ -119,6 +119,8 @@ hl.bind("ALT + C", hl.dsp.exec_cmd("hyprpicker -a"))
 
 hl.bind("ALT + S", hl.dsp.exec_cmd(" bash ~/.config/Scripts/full_screenshot.sh"), { locked = true, repeating = false })
 hl.bind("ALT + R", hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh"), { locked = true, repeating = false })
+hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh"), { locked = true, repeating = false })
+hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh --toggle-audio"), { locked = true, repeating = false })
 for i = 1, 10 do
 	local key = i % 10
 	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))

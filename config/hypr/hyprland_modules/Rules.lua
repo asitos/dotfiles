@@ -95,6 +95,18 @@ hl.layer_rule({
 	animation = "slide right",
 })
 
+hl.layer_rule({
+	name = "noanim-selection",
+	match = { namespace = "selection" },
+	no_anim = true,
+})
+
+hl.layer_rule({
+	name = "noanim-hyprpicker",
+	match = { namespace = "hyprpicker" },
+	no_anim = true,
+})
+
 hl.window_rule({
 	name = "fix-xwayland-drags",
 	match = {
