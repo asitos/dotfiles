@@ -25,7 +25,8 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("~/.config/Scripts/toggle-speaker.sh"
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + ESCAPE", hl.dsp.exec_cmd("killall tofi tofi-drun hints hintsd"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("kitty -e yazi"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("pkill waybar || waybar"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/Scripts/waybar-toggle.sh"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/Scripts/cava-hud.sh"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty --class clipse --title 'clipse-floating' -e clipse"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -s -m region --clipboard-only --freeze"))
 hl.bind(
@@ -36,6 +37,8 @@ hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m window"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("/home/asitos/.config/Scripts/ocr.sh"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.config/Scripts/power_toggle.sh"))
 -- hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprshutdown"), { description = "reload hyprland" })
+hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd("~/.config/Scripts/powermenu.sh"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("~/.config/Scripts/toggle-nightlight.sh"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 hl.bind(mainMod .. " + SHIFT + O", hl.dsp.exec_cmd("systemctl reboot"))
 hl.bind(
@@ -119,8 +122,16 @@ hl.bind("ALT + C", hl.dsp.exec_cmd("hyprpicker -a"))
 
 hl.bind("ALT + S", hl.dsp.exec_cmd(" bash ~/.config/Scripts/full_screenshot.sh"), { locked = true, repeating = false })
 hl.bind("ALT + R", hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh"), { locked = true, repeating = false })
-hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh"), { locked = true, repeating = false })
-hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh --toggle-audio"), { locked = true, repeating = false })
+hl.bind(
+	"SUPER + SHIFT + R",
+	hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh"),
+	{ locked = true, repeating = false }
+)
+hl.bind(
+	"SUPER + ALT + R",
+	hl.dsp.exec_cmd("bash ~/.config/Scripts/screen_recorder.sh --toggle-audio"),
+	{ locked = true, repeating = false }
+)
 for i = 1, 10 do
 	local key = i % 10
 	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
@@ -138,6 +149,7 @@ hl.bind(mainMod .. " + T", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + SPACE", hl.dsp.workspace.toggle_special("spotify"))
 hl.bind("ALT + SPACE", hl.dsp.workspace.toggle_special("scratch"))
 hl.bind(mainMod .. " + SHIFT + Space", hl.dsp.window.move({ workspace = "special:spotify" }))
+hl.bind("ALT + SHIFT + Space", hl.dsp.window.move({ workspace = "special:scratch" }))
 
 -- ScrollOverview.lua
 if hl.plugin.scrolloverview then
@@ -160,3 +172,12 @@ if hl.plugin.scrolloverview then
 		hl.bind("mouse:274", hl.plugin.scrolloverview.window("close"), { mouse = true })
 	end)
 end
+
+hl.bind(mainMod .. " + A", hl.dsp.group.toggle())
+hl.bind(mainMod .. " + TAB", hl.dsp.group.next())
+hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.group.prev())
+hl.bind(mainMod .. " + CTRL + H", hl.dsp.exec_raw("movewindoworgroup", "l"))
+hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_raw("movewindoworgroup", "r"))
+hl.bind(mainMod .. " + CTRL + K", hl.dsp.exec_raw("movewindoworgroup", "u"))
+hl.bind(mainMod .. " + CTRL + J", hl.dsp.exec_raw("movewindoworgroup", "d"))
+hl.bind(mainMod .. " + CTRL + U", hl.dsp.exec_raw("moveoutofgroup"))

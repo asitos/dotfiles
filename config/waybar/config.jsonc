@@ -10,12 +10,12 @@
         "clock",
         "hyprland/workspaces",
         "custom/waybar-scrolling-mpris",
-    //    "custom/cava",
+        "custom/cava",
         "mpris"
     ],
     "modules-center": [
         "custom/cava-left",
-        "hyprland/window",
+        // "hyprland/window",
         "custom/cava-right"
     ], 
     "modules-right": [
@@ -24,18 +24,18 @@
     	"custom/powerprofile",
     	"temperature",
     //    "cpu",
-        "network",
-        "pulseaudio",
+        // "network",
         "bluetooth",
         "custom/buds",
         "backlight",
+        "pulseaudio",
       	"battery",
         "custom/power"
     //  "pulseaudio#microphone"
     ],
 
     "hyprland/window": {
-        "format": "󰄛 {} :3",
+        "format": "{} :3",
         "max-length": 60,
         "separate-outputs": true
     },
@@ -53,7 +53,7 @@
     },
 
     "clock": {
-      "format": "{:%a, %d %b 󰄛 %I:%M %p}",
+      "format": "{:%a %d %b, %I:%M %p}",
         "interval": 1,
         "rotate": 0,
         "tootip": true,
@@ -122,7 +122,7 @@
     },
     "ignored-players": ["vlc"], // Optional: ignore apps you don't want on the bar
     "dynamic-len": 20,
-    "max-length": 60,
+    "max-length": 30,
     "interval": 1,
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
@@ -131,7 +131,7 @@
     }, 
 
 "custom/cava": {
-    "exec": "~/.config/waybar/scripts/waybar-cava",
+    "exec": "~/.config/waybar/scripts/cava-waybar.sh",
     "format": "{}",
     "tooltip": false
 },
@@ -213,12 +213,11 @@
 },
 
      "temperature": {
-//         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input", // Uncomment if auto-detect fails
-"hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input",
+        "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+        "input-filename": "temp1_input",
+        "warning-threshold": 60,
         "critical-threshold": 80,
-        "format": "{icon} {temperatureC}°C",
-        "format-critical": "{icon} {temperatureC}°C 🔥",
-        "format-icons": ["", "", ""]
+        "format": "{temperatureC}°C"
     },
 
     "memory": {

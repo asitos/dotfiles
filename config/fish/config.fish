@@ -17,6 +17,8 @@ if status is-interactive
     export LFS=/mnt/lfs
     export TERM=xterm-256color
 
+    # custom asitos aliases
+    alias jc="journalctl"
     export WECHALLUSER="asitos"
     export WECHALLTOKEN="81116-7FA02-33D37-A8260-D8418-CF7A0"
     umask 0022
@@ -26,12 +28,11 @@ if status is-interactive
     alias l="eza --icons --all --long --git --no-user"
     alias tree="eza --tree --icons --level=2"
     alias pc="pyroclear"
-
     alias cat="bat --theme='Catppuccin Mocha'"
-    
     alias rm="rm -i"
     alias cp="cp -i"
     alias venv="source ./venv/bin/activate.fish"
+
     alias gf="git fetch"
     alias gcl="git clone"
     alias gp="git push origin"
@@ -41,34 +42,43 @@ if status is-interactive
     alias gc="git commit -m"
     alias gcb="git checkout -b"
     alias gch="git checkout"
-    alias gcr="git commit -m \"docs: update readme\""
+    alias gcr="git commit -m \"update readme\""
+    alias gcg="git commit -m \"update gitignore\""
+
     alias rd="ga && gcr && gp"
+    alias gi="ga && gcg && gp"
+
     alias gt="git tag -a"
     alias gl="git log"
     alias gr="git restore"
     alias gm="git merge"
     alias gpmas="git push origin master"
+    alias lg="lazygit"
+
     alias n="nvim"
     alias sn="sudo -E nvim"
     alias sy="sudo -E yazi"
     alias nr="nvim README.md"
     alias ng="nvim .gitignore"
+    alias mkdir="md"
+
     alias y="yazi"
+
     alias nfc="nvim ~/.config/fish/config.fish"
     alias sfc="source ~/.config/fish/config.fish"
+
     alias s="sudo"
     alias se="sudo -E"
+
     alias cbr="cargo build --release"
     alias cr="cargo run --"
-    alias lg="lazygit"
+
     alias mirrors="sudo reflector --country 'India','Singapore' --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
     alias h="haj"
     alias a="agy"
     alias ad="agy --dangerously-skip-permissions"
     alias au="antigravity-usage"
 
-    # ssh
-    # custom asitos aliases
     alias pocha="clear"
     alias sojaao="shutdown now"
     alias dikhaao="eza --icons --all"

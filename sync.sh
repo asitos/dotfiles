@@ -6,7 +6,6 @@ CONFIG_DIR="$HOME/.config"
 
 TRACKED_CONFIGS=(
     "btop"
-    "qBittorrent"
     "kitty"
     "waybar"
     "mako"
@@ -18,6 +17,7 @@ TRACKED_CONFIGS=(
     "nvim"
     "Scripts"
     "yazi"
+    "bongocat"
 )
 
 case "$1" in

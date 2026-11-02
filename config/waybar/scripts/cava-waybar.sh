@@ -7,7 +7,7 @@ cat > "$CONFIG_FILE" << 'EOF'
 [general]
 mode = normal
 framerate = 60
-bars = 12
+bars = 16
 
 [input]
 method = pulse

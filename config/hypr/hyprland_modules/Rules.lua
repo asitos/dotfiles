@@ -107,6 +107,20 @@ hl.layer_rule({
 	no_anim = true,
 })
 
+hl.layer_rule({
+	name = "noanim-bongocat",
+	match = { namespace = "bongocat-overlay" },
+	no_anim = true,
+	order = -1,
+	above_lock = 0,
+})
+
+hl.layer_rule({
+	name = "noanim-cava-hud",
+	match = { namespace = "^(cava-hud)$" },
+	no_anim = true,
+})
+
 hl.window_rule({
 	name = "fix-xwayland-drags",
 	match = {
