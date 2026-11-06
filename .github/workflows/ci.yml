@@ -36,14 +36,14 @@ jobs:
     steps:
       - name: Install Core Utilities & Ansible
         run: |
-          pacman -Syu --noconfirm git ansible-core coreutils
+          pacman -Syu --noconfirm git ansible coreutils
 
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Verify Ansible Playbook Syntax
         run: |
-          ansible-playbook --syntax-check ansible/setup.yml
+          ansible-playbook -i ansible/inventory.ini --syntax-check ansible/setup.yml
 
       - name: Execute Dotfiles Symlink Deployment via Install Script
         run: |
