@@ -38,7 +38,7 @@ hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("/home/asitos/.config/Scripts
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.config/Scripts/power_toggle.sh"))
 -- hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprshutdown"), { description = "reload hyprland" })
 hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd("~/.config/Scripts/powermenu.sh"))
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("~/.config/Scripts/toggle-nightlight.sh"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("nm-connection-editor"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 hl.bind(mainMod .. " + SHIFT + O", hl.dsp.exec_cmd("systemctl reboot"))
 hl.bind(
@@ -87,9 +87,9 @@ hl.bind(
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 10%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 10%-"), { locked = true, repeating = true })
 
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 hl.bind(
 	"ALT + BracketRight",
@@ -176,8 +176,8 @@ end
 hl.bind(mainMod .. " + A", hl.dsp.group.toggle())
 hl.bind(mainMod .. " + TAB", hl.dsp.group.next())
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.group.prev())
-hl.bind(mainMod .. " + CTRL + H", hl.dsp.exec_raw("movewindoworgroup", "l"))
-hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_raw("movewindoworgroup", "r"))
-hl.bind(mainMod .. " + CTRL + K", hl.dsp.exec_raw("movewindoworgroup", "u"))
-hl.bind(mainMod .. " + CTRL + J", hl.dsp.exec_raw("movewindoworgroup", "d"))
-hl.bind(mainMod .. " + CTRL + U", hl.dsp.exec_raw("moveoutofgroup"))
+hl.bind(mainMod .. " + CTRL + H", hl.dsp.window.move({ into_or_create_group = "left" }))
+hl.bind(mainMod .. " + CTRL + L", hl.dsp.window.move({ into_or_create_group = "right" }))
+hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.move({ into_or_create_group = "up" }))
+hl.bind(mainMod .. " + CTRL + J", hl.dsp.window.move({ into_or_create_group = "down" }))
+hl.bind(mainMod .. " + CTRL + U", hl.dsp.window.move(out_of_group))

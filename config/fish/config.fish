@@ -9,6 +9,7 @@ fish_add_path /home/asitos/.cargo/bin/
 fish_add_path /home/asitos/.config/waybar/scripts/
 fish_add_path /home/asitos/Downloads/totk/
 fish_add_path /usr/lib/ccache/binish_add_path /home/asitos/Projects/haj/target/release/
+fish_add_path /usr/local/go/bin
 if status is-interactive
     set -gx EDITOR nvim
     set -gx VISUAL nvim
@@ -16,6 +17,7 @@ if status is-interactive
     alias cd="z" 
     export LFS=/mnt/lfs
     export TERM=xterm-256color
+    export GOPATH=/home/asitos/go
 
     # custom asitos aliases
     alias jc="journalctl"
@@ -60,7 +62,6 @@ if status is-interactive
     alias sy="sudo -E yazi"
     alias nr="nvim README.md"
     alias ng="nvim .gitignore"
-    alias mkdir="md"
 
     alias y="yazi"
 
@@ -78,6 +79,7 @@ if status is-interactive
     alias a="agy"
     alias ad="agy --dangerously-skip-permissions"
     alias au="antigravity-usage"
+    alias ap="ansible-playbook"
 
     alias pocha="clear"
     alias sojaao="shutdown now"

@@ -1,0 +1,72 @@
+---
+- name: provision arch workstation env
+  hosts: localhost
+  connection: local
+  become: false
+
+  vars: 
+    dotfiles_dir: "{{ playbook_dir | dirname }}"
+    config_dir: "{{ lookup('env', 'HOME') }}/.config"
+
+    system_packages:
+      - git
+      - rsync
+      - kitty 
+      - fish
+      - neovim
+      - waybar
+      - hyprland
+      - btop
+      - yazi
+      - mako
+      - ripgrep
+      - fd
+      - fzf
+
+    tracked_configs:
+      - btop
+      - clipse
+      - fish
+      - hypr
+      - kitty
+      - mako
+      - nvim
+      - tofi
+      - waybar
+      - yazi
+
+  tasks:
+    - name: ensure .config base directory exists
+      ansible.builtin.file:
+        path: "{{ config_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: install required system packages via pacman
+      become: true
+      community.general.pacman:
+        name: "{{ system_packages }}"
+        state: present
+        update_cache: true
+
+    - name: inspect existing destination configs
+      ansible.builtin.stat:
+        path: "{{ config_dir }}/{{ item }}"
+      loop: "{{ tracked_configs }}"
+      register: existing_configs
+
+    - name: backup existing physical directories before symlinking
+      ansible.builtin.command:
+        cmd: "mv {{ config_dir }}/{{ item.item }} {{ config_dir }}/{{ item.item }}.bak"
+      loop: "{{ existing_configs.results }}"
+      when: item.stat.exists and item.stat.isdir and not (item.stat.islnk | default(false))
+
+    - name: deploy dotfiles via declarative symlinks
+      ansible.builtin.file:
+        src: "{{ dotfiles_dir }}/config/{{ item }}"
+        dest: "{{ config_dir }}/{{ item }}"
+        state: link
+        force: true
+      loop: "{{ tracked_configs }}"
+      when: "(dotfiles_dir ~ '/config/' ~ item) is exists"
+

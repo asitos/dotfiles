@@ -7,7 +7,7 @@
 
 hl.window_rule({
 	name = "nmgui-floater",
-	match = { title = "^(.*Network Manager.*)$" },
+	match = { class = "^(nm-connection-editor)$" },
 	float = true,
 })
 
