@@ -50,6 +50,8 @@
         name: "{{ system_packages }}"
         state: present
         update_cache: true
+      tags:
+        - packages
 
     - name: inspect existing destination configs
       ansible.builtin.stat:

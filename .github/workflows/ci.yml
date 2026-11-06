@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint-shell:
-    name: Lint Shell Scripts
+    name: lint shell scripts
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -29,36 +29,46 @@ jobs:
           find . -type f -name "*.fish" -not -path "*/.git/*" -exec fish -n {} +
 
   test-bootstrap-arch:
-    name: Test Bootstrap in Fresh Arch Container
+    name: test bootstrap in fresh arch container
     runs-on: ubuntu-latest
     container:
       image: archlinux:latest
     steps:
-      - name: Install Core Utilities
+      - name: Install Core Utilities & Ansible
         run: |
-          pacman -Syu --noconfirm git rsync bash coreutils
+          pacman -Syu --noconfirm git ansible-core coreutils
 
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Verify Script Permissions
+      - name: Verify Ansible Playbook Syntax
         run: |
-          chmod +x sync.sh
+          ansible-playbook --syntax-check ansible/setup.yml
 
-      - name: Execute Dotfiles Apply (push to system)
+      - name: Execute Dotfiles Symlink Deployment via Install Script
         run: |
-          bash sync.sh push
+          chmod +x install.sh
+          ./install.sh
 
-      - name: Validate Generated Configuration Tree
+      - name: Validate Generated Configuration Symlinks
         run: |
-          echo "Verifying generated files..."
-          test -d "$HOME/.config/hypr" || exit 1
-          test -d "$HOME/.config/kitty" || exit 1
-          test -d "$HOME/.config/fish" || exit 1
-          echo "All configuration directories present and accounted for."
+          echo "Verifying symlinks..."
+          test -L "$HOME/.config/hypr" || exit 1
+          test -L "$HOME/.config/kitty" || exit 1
+          test -L "$HOME/.config/fish" || exit 1
+          echo "All configuration symlinks present and accounted for."
+
+      - name: Test Dotfiles Uninstall Script
+        run: |
+          chmod +x uninstall.sh
+          ./uninstall.sh
+          test ! -L "$HOME/.config/hypr" || exit 1
+          test ! -L "$HOME/.config/kitty" || exit 1
+          test ! -L "$HOME/.config/fish" || exit 1
+          echo "All symlinks successfully removed."
 
   secret-scan:
-    name: Audit secrets with Gitleaks
+    name: audit secrets with gitleaks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
