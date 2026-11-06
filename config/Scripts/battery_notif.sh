@@ -12,7 +12,7 @@ while true; do
     notify-send -u critical -t 5000 "battery khatam laadle (${BAT_LEVEL}%)"
 
     sleep 300
-  else 
+  else
     sleep $CHECK_INTERVAL
   fi
 done

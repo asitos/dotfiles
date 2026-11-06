@@ -1,0 +1,72 @@
+name: Dotfiles CI & Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-shell:
+    name: Lint Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck on bash scripts
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: '.'
+          severity: warning
+          ignore_paths: '.git'
+
+      - name: Install Fish shell
+        run: which fish || (sudo apt-get update -qq && sudo apt-get install -y fish)
+
+      - name: Lint Fish scripts
+        run: |
+          find . -type f -name "*.fish" -not -path "*/.git/*" -exec fish -n {} +
+
+  test-bootstrap-arch:
+    name: Test Bootstrap in Fresh Arch Container
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    steps:
+      - name: Install Core Utilities
+        run: |
+          pacman -Syu --noconfirm git rsync bash coreutils
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Verify Script Permissions
+        run: |
+          chmod +x sync.sh
+
+      - name: Execute Dotfiles Apply (push to system)
+        run: |
+          bash sync.sh push
+
+      - name: Validate Generated Configuration Tree
+        run: |
+          echo "Verifying generated files..."
+          test -d "$HOME/.config/hypr" || exit 1
+          test -d "$HOME/.config/kitty" || exit 1
+          test -d "$HOME/.config/fish" || exit 1
+          echo "All configuration directories present and accounted for."
+
+  secret-scan:
+    name: Audit secrets with Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

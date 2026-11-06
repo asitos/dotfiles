@@ -51,6 +51,6 @@ hl.config({
     use_shader_blur_blend = false,
 
     icc_vcgt_enabled = true,
- 
+
   },
 })

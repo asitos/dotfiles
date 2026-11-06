@@ -26,7 +26,7 @@ function colors
     _print_col "Blue"       89b4fa "#89b4fa"
     _print_col "Lavender"   b4befe "#b4befe"
     _print_col "Text"       cdd6f4 "#cdd6f4"
-    
+
     echo " --------------------------"
     echo
 end

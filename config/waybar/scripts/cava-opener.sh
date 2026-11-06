@@ -47,15 +47,15 @@ if hyprctl clients -j | jq -e ".[] | select(.title == \"$WINDOW_NAME\")" > /dev/
 else
     # Markiere dass Cava offen ist
     touch "$STATUS_FILE"
-    
+
     # Neues Fenster öffnen mit spezifischer Config und Transparenz
     kitty --class "$WINDOW_NAME" --title "$WINDOW_NAME" \
         -o background_opacity=0.0 \
         bash -c "cava -p \"$CAVA_CONFIG\"; exec bash" &
-    
+
     # Warte bis Fenster existiert
     sleep 0.3
-    
+
     # Fenster als getilt behandeln (nicht floating)
     # und split direction setzen
     if [ "$POSITION" = "top" ]; then

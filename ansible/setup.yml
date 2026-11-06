@@ -4,14 +4,14 @@
   connection: local
   become: false
 
-  vars: 
+  vars:
     dotfiles_dir: "{{ playbook_dir | dirname }}"
     config_dir: "{{ lookup('env', 'HOME') }}/.config"
 
     system_packages:
       - git
       - rsync
-      - kitty 
+      - kitty
       - fish
       - neovim
       - waybar
@@ -30,10 +30,12 @@
       - hypr
       - kitty
       - mako
-      - nvim
       - tofi
       - waybar
       - yazi
+      - Scripts
+      - bongocat
+      - haj
 
   tasks:
     - name: ensure .config base directory exists
@@ -63,10 +65,11 @@
 
     - name: deploy dotfiles via declarative symlinks
       ansible.builtin.file:
-        src: "{{ dotfiles_dir }}/config/{{ item }}"
-        dest: "{{ config_dir }}/{{ item }}"
+        src: "{{ dotfiles_dir }}/config/{{ item.item }}"
+        dest: "{{ config_dir }}/{{ item.item }}"
         state: link
         force: true
-      loop: "{{ tracked_configs }}"
-      when: "(dotfiles_dir ~ '/config/' ~ item) is exists"
-
+      loop: "{{ existing_configs.results }}"
+      when:
+        - "(dotfiles_dir ~ '/config/' ~ item.item) is exists"
+        - not (ansible_check_mode and item.stat.exists and item.stat.isdir and not (item.stat.islnk | default(false)))

@@ -180,4 +180,4 @@ hl.bind(mainMod .. " + CTRL + H", hl.dsp.window.move({ into_or_create_group = "l
 hl.bind(mainMod .. " + CTRL + L", hl.dsp.window.move({ into_or_create_group = "right" }))
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.move({ into_or_create_group = "up" }))
 hl.bind(mainMod .. " + CTRL + J", hl.dsp.window.move({ into_or_create_group = "down" }))
-hl.bind(mainMod .. " + CTRL + U", hl.dsp.window.move(out_of_group))
+hl.bind(mainMod .. " + CTRL + U", hl.dsp.window.move({ out_of_group = true }))

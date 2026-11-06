@@ -11,11 +11,13 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 > a quick look at the desktop environment.
 
 <div align="center">
-  <img src="./assets/screenshot-1.png" alt="clean desktop" width="100%" />
+  <img src="./assets/screenshot-2.png" alt="clean desktop" width="100%" />
+
+  <img src="./assets/screenshot-3.png" alt="showcase" width="100%" />
   <p><i>clean workspace</i></p>
 
   <br />
-<video src="https://github.com/user-attachments/assets/5e5d925c-5244-4cd3-aa16-1169bffc7541" width="100%" controls></video>
+<video src="https://github.com/user-attachments/assets/dc0e6569-7e06-4245-a87e-38bcac709705" width="100%" controls></video>
   <p><i>hyprland animations and workflow</i></p>
 </div>
 
@@ -26,26 +28,30 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 ### things used
 
 - **os:** arch linux
-- **wm:** hyprland (wayland)
+- **wm:** hyprland
 - **terminal:** kitty
-- **bar:** waybar
+- **bar:** waybar & [bongocat](https://github.com/saatvik333/wayland-bongocat)
 - **shell:** fish
 - **notifs:** mako
 - **clipboard:** clipse
-- **editor:** neovim (with lazyvim and nvchad)
+- **editor:** [neovim](https://github.com/asitos/neovim-dotfiles)
 - **launcher:** tofi
+- **file manager:** yazi
 
 ### structure
 
 ```text
 config/
+├── bongocat
 ├── btop
 ├── clipse
+├── fish
+├── haj
 ├── hypr
 ├── kitty
 ├── mako
-├── nvim
 ├── qBittorrent
+├── Scripts
 ├── tofi
 ├── waybar
 └── yazi

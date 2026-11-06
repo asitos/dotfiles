@@ -5,10 +5,10 @@ function fish_greeting
         "arch linux goes meow~ 󰄛" \
         "don't break the system today, okay? :3" \
         "uwu what's this? a terminal?"
-    
+
     # Pick one at random
     set -l msg (random choice $messages)
-    
+
     # Print it in Lavender
     echo
     set_color b4befe # Lavender hex

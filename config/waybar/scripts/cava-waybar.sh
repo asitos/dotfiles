@@ -36,7 +36,7 @@ EOF
 
 format_cava() {
     local bars=("▁" "▂" "▃" "▄" "▅" "▆" "▇" "█")
-    
+
     while read -r line; do
         output=""
         for val in $line; do

@@ -68,12 +68,12 @@ input-field {
     font_color = rgb(205, 214, 244)
     font_family = Terminess Nerd Font Mono
     fade_on_empty = false
-    placeholder_text = 
+    placeholder_text =
     hide_input = false
     rounding = 0
     check_color = rgba(0, 0, 0, 0)
     fail_color = rgba(0, 0, 0, 0)
-    fail_text = 
+    fail_text =
     position = 43, -31
     halign = center
     valign = center

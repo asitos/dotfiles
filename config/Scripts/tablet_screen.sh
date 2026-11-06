@@ -12,4 +12,3 @@ adb reverse tcp:5900 tcp:5900 &
 
 # 4. Start VNC
 wayvnc --output=HEADLESS-2 &
-

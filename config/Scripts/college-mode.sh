@@ -70,7 +70,7 @@ else
     # ==============================
     # STATE B: PERFORMANCE (DEFAULT)
     # ==============================
-    
+
     # Read saved states
     if [ -f "$STATE_FILE" ]; then
         # shellcheck disable=SC1090

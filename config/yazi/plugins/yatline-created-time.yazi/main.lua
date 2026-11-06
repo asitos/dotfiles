@@ -20,7 +20,7 @@ local function setup(_, options)
 			if not h then  -- Check if h is nil
 				return {}  -- Return empty table when no item is hovered
 			end
-			
+
 			local created_time = {}
 			local time = " C: " .. os.date("%Y-%m-%d %H:%M", h.cha.btime // 1) .. " "
 
