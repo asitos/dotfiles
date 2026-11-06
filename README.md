@@ -84,7 +84,8 @@ cp -r config/* ~/.config/
 to remove the dotfiles symlinks and automatically restore your original configurations from backup:
 
 ```bash
-cd ~/Projects/dotfiles
+## go to wherever you cloned this repo, for example:
+cd ~/dotfiles
 chmod +x uninstall.sh
 ./uninstall.sh
 ```
