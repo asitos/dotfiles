@@ -31,14 +31,15 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty --class clipse --title 'clipse
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -s -m region --clipboard-only --freeze"))
 hl.bind(
 	mainMod .. " + SHIFT + c",
-	hl.dsp.exec_cmd("hyprshot -s -m region --freeze -o /home/asitos/Projects/cybersec/screenshots")
+	hl.dsp.exec_cmd("hyprshot -s -m region --freeze -o $HOME/Pictures/screenshots")
 )
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m window"))
-hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("/home/asitos/.config/Scripts/ocr.sh"))
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.config/Scripts/ocr.sh"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.config/Scripts/power_toggle.sh"))
 -- hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprshutdown"), { description = "reload hyprland" })
 hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd("~/.config/Scripts/powermenu.sh"))
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("nm-connection-editor"))
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.exec_cmd("~/.config/Scripts/hotspot-toggle.sh"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 hl.bind(mainMod .. " + SHIFT + O", hl.dsp.exec_cmd("systemctl reboot"))
 hl.bind(

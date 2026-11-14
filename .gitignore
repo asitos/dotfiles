@@ -1,4 +1,7 @@
 .env
+*.env
+hotspot.env
+/config/hotspot.env
 private/
 id_rsa
 *.key

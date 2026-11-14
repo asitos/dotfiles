@@ -5,5 +5,5 @@ aur_only = false
 repo_only = false
 verbose = false
 diff_prog = "vimdiff"
-build_dir = "/home/asitos/.cache/haj/aur"
+build_dir = "~/.cache/haj/aur"
 animations = true

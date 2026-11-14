@@ -1,14 +1,15 @@
 if status is-interactive
 end
 
-fish_add_path /home/asitos/.spicetify
-fish_add_path /home/asitos/.local/bin
-fish_add_path /home/asitos/Downloads/remotegamepad/
-fish_add_path /home/asitos/.config/Scripts/
-fish_add_path /home/asitos/.cargo/bin/
-fish_add_path /home/asitos/.config/waybar/scripts/
-fish_add_path /home/asitos/Downloads/totk/
-fish_add_path /usr/lib/ccache/binish_add_path /home/asitos/Projects/haj/target/release/
+fish_add_path $HOME/.spicetify
+fish_add_path $HOME/.local/bin
+fish_add_path $HOME/Downloads/remotegamepad
+fish_add_path $HOME/.config/Scripts
+fish_add_path $HOME/.cargo/bin
+fish_add_path $HOME/.config/waybar/scripts
+fish_add_path $HOME/Downloads/totk
+fish_add_path /usr/lib/ccache/bin
+fish_add_path $HOME/Projects/haj/target/release
 fish_add_path /usr/local/go/bin
 if status is-interactive
     set -gx EDITOR nvim
@@ -17,9 +18,9 @@ if status is-interactive
     alias cd="z"
     export LFS=/mnt/lfs
     export TERM=xterm-256color
-    export GOPATH=/home/asitos/go
+    export GOPATH=$HOME/go
 
-    # custom asitos aliases
+    # custom aliases
     alias jc="journalctl"
     umask 0022
     alias dotfiles="~/Projects/dotfiles/sync.sh"
@@ -142,4 +143,4 @@ end
 
 
 # Added by Antigravity CLI installer
-set -gx PATH "/home/asitos/.local/bin" $PATH
+set -gx PATH "$HOME/.local/bin" $PATH

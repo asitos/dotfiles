@@ -2,7 +2,6 @@
 # VERSION: 3.0
 SETUVAR --export BAT_THEME:Catppuccin\x20Mocha
 SETUVAR VIRTUAL_ENV_DISABLE_PROMPT:true
-SETUVAR --export WECHALLUSER:asitos
 SETUVAR __fish_initialized:4300
 SETUVAR __fish_webconfig_theme_notification:set\x2dtheme\x2dv1\x2d\x232
 SETUVAR _fisher_catppuccin_2F_fish_files:\x7e/\x2econfig/fish/themes/Catppuccin\x20Frappe\x2etheme\x1e\x7e/\x2econfig/fish/themes/Catppuccin\x20Macchiato\x2etheme\x1e\x7e/\x2econfig/fish/themes/Catppuccin\x20Mocha\x2etheme
@@ -39,7 +38,6 @@ SETUVAR fish_pager_color_completion:cdd6f4
 SETUVAR fish_pager_color_description:6c7086
 SETUVAR fish_pager_color_prefix:f5c2e7
 SETUVAR fish_pager_color_progress:6c7086
-SETUVAR fish_user_paths:/home/asitos/\x2elocal/bin\x1e/home/asitos/Projects/haj/target/release\x1e/home/asitos/\x2ecargo/bin\x1e/home/asitos/Downloads/totk\x1e/home/asitos/\x2econfig/waybar/scripts\x1e/home/asitos/\x2econfig/Scripts\x1e/home/asitos/Downloads/remotegamepad\x1e/home/asitos/\x2espicetify
 SETUVAR tide_aws_bg_color:normal
 SETUVAR tide_aws_color:FF9900
 SETUVAR tide_aws_icon:\uf270

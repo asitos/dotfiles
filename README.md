@@ -115,7 +115,6 @@ ansible-playbook -i ansible/inventory.ini ansible/setup.yml -K
 │   ├── hypr
 │   ├── kitty
 │   ├── mako
-│   ├── qBittorrent
 │   ├── Scripts
 │   ├── tofi
 │   ├── waybar

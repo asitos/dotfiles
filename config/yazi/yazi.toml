@@ -45,7 +45,8 @@ edit = [
 	{ run = 'nvim %s', block = true, desc = "Neovim", for = "unix" },
 ]
 play = [
-	{ run = 'mpv %s', orphan = true, desc = "mpv", for = "unix" },
+	{ run = 'mpv --directory-mode=recursive --autocreate-playlist=same %s', block = true, desc = "mpv (terminal)", for = "unix" },
+	{ run = 'mpv --force-window --directory-mode=recursive --autocreate-playlist=same %s', orphan = true, desc = "mpv (GUI)", for = "unix" },
 ]
 feh = [
 	{ run = 'feh %s', orphan = true, desc = "feh", for = "unix" },
@@ -64,6 +65,8 @@ prepend_rules = [
 	{ mime = "image/gif", use = "imv" },
 	{ url = "*.gif", use = "imv" },
 	{ mime = "image/*", use = "feh" },
+	{ url = "*.{wav,WAV,mp3,MP3,flac,m4a,aac,ogg,opus}", use = "play" },
+	{ mime = "audio/*", use = "play" },
 	{ url = "*.mp4", use = "play" },
 	{ url = "*.svg", use = "feh" },
 	{ url = "*.json", use = "edit" },
