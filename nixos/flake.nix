@@ -1,26 +1,22 @@
 {
-  description = "asitos NixOS + Hyprland dual-boot workstation";
+  description = "NixOS system with Serpantinum";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    serpantinum = {
+      url = "github:ilyamiro/serpantinum";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, serpantinum, ... }@inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
+      specialArgs = { inherit inputs serpantinum; };
       modules = [
+        ./hardware-configuration.nix
         ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.asitos = import ./home.nix;
-        }
+        serpantinum.nixosModules.default
       ];
     };
   };
