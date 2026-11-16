@@ -16,3 +16,6 @@ fi
 
 # Refresh Waybar Module Immediately
 pkill -RTMIN+8 waybar
+
+# Refresh Quickshell Module Immediately
+quickshell -p /home/asitos/.local/share/serpantinum/src/quickshell/Shell.qml ipc call powerprofile refresh 2>/dev/null || true

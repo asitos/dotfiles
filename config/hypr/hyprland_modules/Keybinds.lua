@@ -15,9 +15,9 @@ local menu = "tofi-drun --drun-launch=true"
 hl.bind("ALT + SHIFT + C", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.config/Scripts/college-mode.sh"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("zen-browser"))
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("obsidian"))
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("beeper"))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("~/.config/Scripts/beeper-toggle.sh"))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("vesktop"))
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("spotify"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("~/.config/Scripts/spotify-toggle.sh"))
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.window.close(), { repeating = true })
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("remotegamepad &"))
@@ -25,14 +25,11 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("~/.config/Scripts/toggle-speaker.sh"
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + ESCAPE", hl.dsp.exec_cmd("killall tofi tofi-drun hints hintsd"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("kitty -e yazi"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/Scripts/waybar-toggle.sh"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("serpantinum msg bar autohide"))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/Scripts/cava-hud.sh"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty --class clipse --title 'clipse-floating' -e clipse"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -s -m region --clipboard-only --freeze"))
-hl.bind(
-	mainMod .. " + SHIFT + c",
-	hl.dsp.exec_cmd("hyprshot -s -m region --freeze -o $HOME/Pictures/screenshots")
-)
+hl.bind(mainMod .. " + SHIFT + c", hl.dsp.exec_cmd("hyprshot -s -m region --freeze -o $HOME/Pictures/screenshots"))
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m window"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.config/Scripts/ocr.sh"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.config/Scripts/power_toggle.sh"))
@@ -182,3 +179,36 @@ hl.bind(mainMod .. " + CTRL + L", hl.dsp.window.move({ into_or_create_group = "r
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.move({ into_or_create_group = "up" }))
 hl.bind(mainMod .. " + CTRL + J", hl.dsp.window.move({ into_or_create_group = "down" }))
 hl.bind(mainMod .. " + CTRL + U", hl.dsp.window.move({ out_of_group = true }))
+
+-- ----------------------------------------------------
+-- ---- SERPANTINUM SHELL & VIM BINDS (SUPER + ALT) ----
+-- ----------------------------------------------------
+
+-- Vim Directional Workspaces (H = Left/Prev, L = Right/Next)
+hl.bind(mainMod .. " + ALT + H", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + ALT + L", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(mainMod .. " + ALT + SHIFT + H", hl.dsp.window.move({ workspace = "e-1" }))
+hl.bind(mainMod .. " + ALT + SHIFT + L", hl.dsp.window.move({ workspace = "e+1" }))
+
+-- Vim Vertical Adjustments (J/K = Volume Down/Up, SHIFT + J/K = Brightness Down/Up)
+hl.bind(mainMod .. " + ALT + J", hl.dsp.exec_cmd("serpantinum volume lower"), { repeating = true })
+hl.bind(mainMod .. " + ALT + K", hl.dsp.exec_cmd("serpantinum volume raise"), { repeating = true })
+hl.bind(mainMod .. " + ALT + SHIFT + J", hl.dsp.exec_cmd("brightnessctl set 10%-"), { repeating = true })
+hl.bind(mainMod .. " + ALT + SHIFT + K", hl.dsp.exec_cmd("brightnessctl set 10%+"), { repeating = true })
+
+-- Vim Dismiss / Quit (Q / Escape closes active Serpantinum overlay)
+hl.bind(mainMod .. " + ALT + Q", hl.dsp.exec_cmd("serpantinum msg close"))
+hl.bind(mainMod .. " + ALT + ESCAPE", hl.dsp.exec_cmd("serpantinum msg close"))
+
+-- Mnemonic Feature Toggles
+hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("serpantinum msg toggle wallpaper"))
+hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("serpantinum msg toggle system"))
+hl.bind(mainMod .. " + ALT + M", hl.dsp.exec_cmd("serpantinum msg toggle music"))
+hl.bind(mainMod .. " + ALT + C", hl.dsp.exec_cmd("serpantinum msg toggle calendar"))
+hl.bind(mainMod .. " + ALT + N", hl.dsp.exec_cmd("serpantinum msg toggle network"))
+hl.bind(mainMod .. " + ALT + V", hl.dsp.exec_cmd("serpantinum msg toggle volume"))
+hl.bind(mainMod .. " + ALT + U", hl.dsp.exec_cmd("serpantinum settings toggle wellbeing"))
+hl.bind(mainMod .. " + ALT + slash", hl.dsp.exec_cmd("serpantinum msg toggle settings"))
+hl.bind(mainMod .. " + ALT + S", hl.dsp.exec_cmd("serpantinum settings"))
+hl.bind(mainMod .. " + ALT + P", hl.dsp.exec_cmd("serpantinum redactor"))
+hl.bind(mainMod .. " + ALT + BackSpace", hl.dsp.exec_cmd("serpantinum restart"))

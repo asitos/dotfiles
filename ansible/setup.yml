@@ -36,6 +36,8 @@
       - Scripts
       - bongocat
       - haj
+      - serpantinum
+      - ski
 
   tasks:
     - name: ensure .config base directory exists
