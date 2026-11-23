@@ -171,6 +171,6 @@ ansible-playbook -i ansible/inventory.ini ansible/setup.yml -K
 
 ### credits
 
-most of the quickshell source code used is from [serpantinum](https://github.com/ilyamiro/serpantinum)
-cat from [bongocat](https://github.com/saatvik333/wayland-bongocat)
-wallpapers from [Rod's wallpapers](https://github.com/lordofhunger/wallpapers)
+- most of the quickshell source code used is from [serpantinum](https://github.com/ilyamiro/serpantinum)
+- cat from [bongocat](https://github.com/saatvik333/wayland-bongocat)
+- wallpapers from [Rod's wallpapers](https://github.com/lordofhunger/wallpapers)
