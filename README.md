@@ -17,7 +17,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
   <p><i>clean workspace</i></p>
 
   <br />
-<video src="./assets/quickshell-demo.mp4" width="100%" controls></video>
+<video src="https://github.com/user-attachments/assets/6f51543a-dd0c-4825-abfe-d04ac9527473" width="100%" controls></video>
   <p><i>hyprland animations and workflow</i></p>
 </div>
 
