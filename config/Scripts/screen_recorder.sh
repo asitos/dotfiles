@@ -173,6 +173,7 @@ start_recording() {
 
     local -a cmd=(
         wf-recorder
+        --no-dmabuf
         -r 60
         -c libx264
         -p crf=28
@@ -264,8 +265,9 @@ case "${1:-}" in
         ;;
 esac
 
-if [[ -f "$PID_FILE" ]]; then
+if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE" 2>/dev/null || echo 0)" 2>/dev/null; then
     stop_recording
 else
+    rm -f "$PID_FILE" "$START_EPOCH_FILE" "$TEMP_FILE"
     start_recording
 fi

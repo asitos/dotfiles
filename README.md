@@ -17,7 +17,7 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
   <p><i>clean workspace</i></p>
 
   <br />
-<video src="https://github.com/user-attachments/assets/dc0e6569-7e06-4245-a87e-38bcac709705" width="100%" controls></video>
+<video src="./assets/quickshell-demo.mp4" width="100%" controls></video>
   <p><i>hyprland animations and workflow</i></p>
 </div>
 
@@ -100,6 +100,41 @@ chmod +x uninstall.sh
 
 ---
 
+### jalpari syntax
+
+`jalpari` manages the quickshell daemon, ui overlays, audio/display controls, and themes:
+
+```bash
+# daemon management
+jalpari daemon reload                       # reload quickshell config
+jalpari daemon restart                      # restart daemon
+jalpari daemon stop                         # stop daemon
+jalpari daemon status                       # check daemon status
+
+# ui panels & overlays
+jalpari ui toggle <panel>                   # wallpaper, network, volume, calendar, music, quickactions
+jalpari ui open <panel>                     # open specific panel
+jalpari ui close                            # close active overlay
+jalpari ui bar <autohide|show|hide>         # toggle/set bar visibility
+
+# audio & display
+jalpari audio volume raise|lower            # adjust volume (±5%)
+jalpari audio mute                          # toggle output mute
+jalpari audio mic toggle                    # toggle mic mute
+jalpari display brightness set <0-100>      # set brightness level
+jalpari display gamma <set|auto|reset>      # blue light / night light temperature
+
+# theming & configuration
+jalpari theme preset [name]                 # apply/list color preset
+jalpari theme wallpaper <path|next|prev>    # change wallpaper
+jalpari theme reload                        # reload theme colors
+jalpari config gui                          # open quickshell settings gui
+jalpari config get <key>                    # read config value
+jalpari config set <key> <val>              # write config value
+```
+
+---
+
 ### arch linux full bootstrap (ansible)
 for provisioning a fresh arch linux workstation (installs all system packages via pacman and sets up symlinks):
 
@@ -114,20 +149,22 @@ ansible-playbook -i ansible/inventory.ini ansible/setup.yml -K
 ```text
 .
 ├── ansible/          # declarative provisioning & symlinking
+├── assets/           # preview recordings, screenshots & wallpapers
 ├── config/           # tracked dotfiles (symlinked to ~/.config)
-│   ├── bongocat
-│   ├── btop
-│   ├── clipse
-│   ├── fish
-│   ├── haj
-│   ├── hypr
-│   ├── kitty
-│   ├── mako
-│   ├── Scripts
-│   ├── tofi
-│   ├── waybar
-│   └── yazi
-├── install.sh        # automated symlink installer
+│   ├── bongocat/     # desktop cat companion overlay
+│   ├── btop/         # system resource monitor theme & config
+│   ├── clipse/       # clipboard manager config
+│   ├── fish/         # interactive shell, aliases & functions
+│   ├── haj/          # system bar / status utility
+│   ├── hypr/         # hyprland compositor (bindings, visuals, window rules)
+│   ├── kitty/        # terminal emulator config & font settings
+│   ├── mako/         # notification daemon style & behavior
+│   ├── quickshell/   # desktop shell (bar, panels, widgets & jalpari cli)
+│   ├── Scripts/      # utility scripts (recorder, hotkeys, status toggles)
+│   ├── tofi/         # wayland dmenu / app launcher & matugen themes
+│   ├── waybar/       # waybar status bar config & styles
+│   └── yazi/         # terminal file manager config, keymaps & plugins
+├── install.sh        # automated symlink installer & bin linker
 ├── uninstall.sh      # uninstaller & backup restorer
 └── .github/          # CI linting & test workflows
 ```
@@ -136,3 +173,4 @@ ansible-playbook -i ansible/inventory.ini ansible/setup.yml -K
 
 most of the quickshell source code used is from [serpantinum](https://github.com/ilyamiro/serpantinum)
 cat from [bongocat](https://github.com/saatvik333/wayland-bongocat)
+wallpapers from [Rod's wallpapers](https://github.com/lordofhunger/wallpapers)
