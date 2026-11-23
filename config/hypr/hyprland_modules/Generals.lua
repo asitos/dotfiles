@@ -24,7 +24,7 @@ hl.config({
   },
 
   render = {
-    direct_scanout = 2,
+    direct_scanout = 0,
     expand_undersized_textures = true,
 
     xp_mode = false,
