@@ -16,13 +16,15 @@ SUBTARGET="$3"
 
 send_qs_ipc() {
     if [[ -n "$MAIN_QML" ]]; then
-        local target_qml="$(realpath "$MAIN_QML" 2>/dev/null || echo "$MAIN_QML")"
+        local target_qml
+        target_qml="$(realpath "$MAIN_QML" 2>/dev/null || echo "$MAIN_QML")"
         quickshell -p "$target_qml" ipc call main handleCommand "$@" >/dev/null 2>&1
     else
         quickshell ipc call main handleCommand "$@" >/dev/null 2>&1
     fi
 }
 
+# shellcheck disable=SC2034
 log_widget_launch() {
     local target="$1"
     [[ -z "$target" ]] && return
@@ -139,11 +141,11 @@ handle_wallpaper_prep() {
                 find "$THUMB_DIR" -maxdepth 1 -type f \
                     ! -name '.source_dir' ! -name '.manifest' -delete
                 echo "$SRC_DIR" > "$THUMB_SOURCE_FILE"
-                > "$MANIFEST"
+                : > "$MANIFEST"
             fi
         else
             echo "$SRC_DIR" > "$THUMB_SOURCE_FILE"
-            > "$MANIFEST"
+            : > "$MANIFEST"
         fi
 
         [[ ! -f "$MANIFEST" ]] && build_manifest

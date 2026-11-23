@@ -3,9 +3,11 @@
 BIN_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 if [ -z "$JALPARI_DIR" ]; then
     if [ -d "$(dirname "$BIN_DIR")/scripts" ]; then
-        export JALPARI_DIR="$(dirname "$BIN_DIR")"
+        JALPARI_DIR="$(dirname "$BIN_DIR")"
+        export JALPARI_DIR
     else
-        export JALPARI_DIR="$(dirname "$BIN_DIR")/src"
+        JALPARI_DIR="$(dirname "$BIN_DIR")/src"
+        export JALPARI_DIR
     fi
 fi
 
@@ -19,7 +21,8 @@ if [ -z "$MAIN_QML" ]; then
     elif [ -f "$JALPARI_DIR/quickshell/Shell.qml" ]; then
         export MAIN_QML="$JALPARI_DIR/quickshell/Shell.qml"
     else
-        export MAIN_QML="$(find "$JALPARI_DIR" -type f \( -name "Shell.qml" -o -name "Bar.qml" \) 2>/dev/null | head -n 1)"
+        MAIN_QML="$(find "$JALPARI_DIR" -type f \( -name "Shell.qml" -o -name "Bar.qml" \) 2>/dev/null | head -n 1)"
+        export MAIN_QML
     fi
 fi
 
@@ -86,7 +89,8 @@ get_installed_version() {
 }
 
 ensure_daemon() {
-    local pid="$(get_daemon_pid)"
+    local pid
+    pid="$(get_daemon_pid)"
 
     if [ -n "$pid" ] && is_alive "$pid"; then
         return 0
@@ -104,7 +108,8 @@ ensure_daemon() {
 
     local count=0
     while [ "$count" -lt 25 ]; do
-        local cur_pid="$(get_daemon_pid)"
+        local cur_pid
+        cur_pid="$(get_daemon_pid)"
         if [ -n "$cur_pid" ] && is_alive "$cur_pid"; then
             break
         fi
@@ -117,7 +122,8 @@ ensure_daemon() {
 }
 
 stop_daemon() {
-    local pid="$(get_daemon_pid)"
+    local pid
+    pid="$(get_daemon_pid)"
 
     if [ -n "$pid" ] && is_alive "$pid"; then
         terminate_and_wait "$pid" 3

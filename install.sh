@@ -145,7 +145,7 @@ install_symlinks() {
 
         # Backup existing non-symlink file/directory
         if [ -e "$target" ]; then
-            local backup="${target}.bak.$(date +%Y%m%d%H%M%S)"
+            backup="${target}.bak.$(date +%Y%m%d%H%M%S)"
             echo -e "  [${YELLOW}backup${RESET}] $target -> $backup"
             mv "$target" "$backup"
         fi

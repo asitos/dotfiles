@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-export QS_DIR="$(dirname "$SCRIPT_DIR")"
-export MAIN_QML="$(realpath "$QS_DIR/Shell.qml" 2>/dev/null || echo "$QS_DIR/Shell.qml")"
+QS_DIR="$(dirname "$SCRIPT_DIR")"
+export QS_DIR
+MAIN_QML="$(realpath "$QS_DIR/Shell.qml" 2>/dev/null || echo "$QS_DIR/Shell.qml")"
+export MAIN_QML
 export IPC_SOCKET="${XDG_RUNTIME_DIR:-/tmp}/quickshell.sock"
 
 export QS_CACHE_DIR="$HOME/.cache/quickshell"

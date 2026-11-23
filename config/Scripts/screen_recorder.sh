@@ -54,7 +54,8 @@ send_recorder_event() {
 }
 EOF
 
-    local shell_qml="$(realpath "$HOME/.config/quickshell/Shell.qml" 2>/dev/null || echo "$HOME/.config/quickshell/Shell.qml")"
+    local shell_qml
+    shell_qml="$(realpath "$HOME/.config/quickshell/Shell.qml" 2>/dev/null || echo "$HOME/.config/quickshell/Shell.qml")"
     if [[ -f "$shell_qml" ]]; then
         quickshell -p "$shell_qml" ipc call recorder notify "$title" "$clean_body" "$audio_mode" >/dev/null 2>&1 || true
     fi

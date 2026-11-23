@@ -5,9 +5,11 @@ VERBOSE=false
 BIN_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 if [ -z "$JALPARI_DIR" ]; then
     if [ -d "$(dirname "$BIN_DIR")/scripts" ]; then
-        export JALPARI_DIR="$(dirname "$BIN_DIR")"
+        JALPARI_DIR="$(dirname "$BIN_DIR")"
+        export JALPARI_DIR
     else
-        export JALPARI_DIR="$(dirname "$BIN_DIR")/src"
+        JALPARI_DIR="$(dirname "$BIN_DIR")/src"
+        export JALPARI_DIR
     fi
 fi
 
@@ -21,7 +23,8 @@ if [ -z "$MAIN_QML" ]; then
     elif [ -f "$JALPARI_DIR/quickshell/Shell.qml" ]; then
         export MAIN_QML="$JALPARI_DIR/quickshell/Shell.qml"
     else
-        export MAIN_QML="$(find "$JALPARI_DIR" -type f \( -name "Shell.qml" -o -name "Bar.qml" \) 2>/dev/null | head -n 1)"
+        MAIN_QML="$(find "$JALPARI_DIR" -type f \( -name "Shell.qml" -o -name "Bar.qml" \) 2>/dev/null | head -n 1)"
+        export MAIN_QML
     fi
 fi
 
@@ -187,6 +190,7 @@ if [ "$COMMAND" == "status" ]; then
 fi
 
 # Hardware decoder for video wallpapers when the NVIDIA driver is loaded.
+# shellcheck disable=SC2120
 wallpaper_decoder() {
     local drm="${1:-/sys/class/drm}" node
     for node in "$drm"/renderD*; do
