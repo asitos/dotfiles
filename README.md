@@ -30,9 +30,9 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 - **os:** arch linux
 - **wm:** hyprland
 - **terminal:** kitty
-- **bar:** waybar & [bongocat](https://github.com/saatvik333/wayland-bongocat)
+- **bar / shell:** [quickshell](https://outfoxxed.me/quickshell) (jalpari)
 - **shell:** fish
-- **notifs:** mako
+- **notifs:** quickshell / mako
 - **clipboard:** clipse
 - **editor:** [neovim](https://github.com/asitos/neovim-dotfiles)
 - **launcher:** tofi
@@ -45,13 +45,21 @@ feel free to steal anything you like, but please don't blindly copy-paste my scr
 there are two ways to install these dotfiles:
 
 #### 1. automated symlink (install script)
-runs [`install.sh`](./install.sh) to safely symlink configs into `~/.config/`. any existing configurations are automatically backed up with a timestamp. zero dependencies required — works on any linux distro:
+runs [`install.sh`](./install.sh) to check dependencies and idempotently symlink configs into `~/.config/` and CLI binaries into `~/.local/bin/`. existing configurations are safely backed up with timestamps:
 
 ```bash
 git clone https://github.com/asitos/dotfiles.git
 cd dotfiles
 chmod +x install.sh
+
+# check dependencies & symlink configs:
 ./install.sh
+
+# or auto-install missing packages on Arch:
+./install.sh -i
+
+# check-only without making changes:
+./install.sh -c
 ```
 
 #### 2. manual (copy & paste)
@@ -123,3 +131,8 @@ ansible-playbook -i ansible/inventory.ini ansible/setup.yml -K
 ├── uninstall.sh      # uninstaller & backup restorer
 └── .github/          # CI linting & test workflows
 ```
+
+### credits
+
+most of the quickshell source code used is from [serpantinum](https://github.com/ilyamiro/serpantinum)
+cat from [bongocat](https://github.com/saatvik333/wayland-bongocat)

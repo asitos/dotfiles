@@ -14,7 +14,8 @@
       - kitty
       - fish
       - neovim
-      - waybar
+      - quickshell
+      - matugen
       - hyprland
       - btop
       - yazi
@@ -36,7 +37,7 @@
       - Scripts
       - bongocat
       - haj
-      - serpantinum
+      - quickshell
       - ski
 
   tasks:

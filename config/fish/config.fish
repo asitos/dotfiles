@@ -1,16 +1,12 @@
 if status is-interactive
 end
 
-fish_add_path $HOME/.spicetify
 fish_add_path $HOME/.local/bin
-fish_add_path $HOME/Downloads/remotegamepad
 fish_add_path $HOME/.config/Scripts
 fish_add_path $HOME/.cargo/bin
-fish_add_path $HOME/.config/waybar/scripts
-fish_add_path $HOME/Downloads/totk
-fish_add_path /usr/lib/ccache/bin
-fish_add_path $HOME/Projects/haj/target/release
 fish_add_path /usr/local/go/bin
+test -d $HOME/.spicetify && fish_add_path $HOME/.spicetify
+test -d /usr/lib/ccache/bin && fish_add_path /usr/lib/ccache/bin
 if status is-interactive
     set -gx EDITOR nvim
     set -gx VISUAL nvim
@@ -23,9 +19,6 @@ if status is-interactive
     # custom aliases
     alias jc="journalctl"
     umask 0022
-    alias dotfiles="~/Projects/dotfiles/sync.sh"
-    alias ds="dotfiles save"
-    # alias da="dotfiles apply"
     alias l="eza --icons --all --long --git --no-user"
     alias tree="eza --tree --icons --level=2"
     alias pc="pyroclear"

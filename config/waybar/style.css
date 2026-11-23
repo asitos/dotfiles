@@ -5,7 +5,7 @@
   font-weight: bold;
   font-size: 10px;
   min-height: 0;
-  color: #cba6f7;
+  color: #ffb3b1;
   margin-top: 0px;
   margin-bottom: 2px;
   padding-bottom: 0px;
@@ -17,13 +17,13 @@ window {
   min-width: 200px;
   padding: 0 0px;
   background: transparent;
-  color: #cba6f7;
+  color: #ffb3b1;
   margin-top: 0px;
 }
 
 window#waybar {
-  background: rgba(30, 30, 46, 0);
-  color: #cba6f7;
+  background: rgba(20, 12, 12, 0);
+  color: #ffb3b1;
 }
 
 /* #workspaces button { */
@@ -34,28 +34,28 @@ window#waybar {
 /* } */
 /**/
 /* #workspaces button.active { */
-/*     color: #1e1e2e; */
-/*     background-color: #cba6f7; */
+/*     color: #140c0c; */
+/*     background-color: #ffb3b1; */
 /*     border-radius: 10px; */
 /* } */
 /**/
 /* #workspaces button.focused { */
-/*     color: #a6adc8; */
+/*     color: #d7c1c0; */
 /*     background: #eba0ac; */
 /*     border-radius: 10px; */
 /* } */
 /**/
 /* #workspaces button.urgent { */
-/*     color: #11111b; */
-/*     background: #a6e3a1; */
+/*     color: #140c0c; */
+/*     background: #e6bdbb; */
 /*     border-radius: 10px; */
 /* } */
 /**/
 /* #workspaces button:hover { */
 /*     box-shadow: inherit; */
 /*     text-shadow: inherit; */
-/*     background: rgba(203, 166, 247, 0.4); */
-/*     color: #11111b;  */
+/*     background: rgba(255, 179, 177, 0.4); */
+/*     color: #140c0c;  */
 /*     border-radius: 10px; */
 /* } */
 
@@ -67,7 +67,7 @@ window#waybar {
   margin-bottom: 0px;
   background: transparent;
   border-radius: 0px;
-  color: #585b70;
+  color: #a08c8b;
   /* Dimmed gray for inactive ones */
   /* border-bottom: 3px solid transparent; */
   transition: all 0.3s ease;
@@ -77,32 +77,32 @@ window#waybar {
 
 /* ACTIVE: The workspace you are currently on */
 #workspaces button.active {
-  color: #cba6ff;
-  /* border-bottom: 3px solid #cba6f7; */
-  background: rgba(203, 166, 247, 0.2);
+  color: #ffb3b1;
+  /* border-bottom: 3px solid #ffb3b1; */
+  background: rgba(255, 179, 177, 0.2);
   /* Very subtle purple glow */
 }
 
 /* FOCUSED: The workspace that has the keyboard focus */
 /* (Often the same as active, but useful for multi-monitor setups) */
 #workspaces button.focused {
-  color: #cba6f7;
-  background: #313244;
-  box-shadow: inset 0 -3px #cba6f7;
+  color: #ffb3b1;
+  background: #271d1d;
+  box-shadow: inset 0 -3px #ffb3b1;
 }
 
 /* URGENT: When an app needs attention (like a Discord ping) */
 #workspaces button.urgent {
-  color: #f38ba8;
+  color: #ffb4ab;
   /* Red/Pink for urgency */
-  /* border-bottom: 3px solid #f38ba8; */
+  /* border-bottom: 3px solid #ffb4ab; */
   animation: blinker 1s linear infinite;
 }
 
 /* Hover effect for all buttons */
 #workspaces button:hover {
-  background: rgba(203, 166, 247, 0.2);
-  color: #cba6f7;
+  background: rgba(255, 179, 177, 0.2);
+  color: #ffb3b1;
 }
 
 /* Animation for the Urgent state */
@@ -127,11 +127,11 @@ window#waybar {
 #tray,
 #backlight,
 #bluetooth {
-  background: #1e1e2e;
+  background: #140c0c;
   padding: 0px 10px;
   margin: 2px 0px 0px 2px;
   border-radius: 0px;
-  /* border: 1px solid #181825; */
+  /* border: 1px solid #1a1111; */
 }
 
 #backlight {
@@ -145,7 +145,7 @@ window#waybar {
 }
 
 #workspaces {
-  background: #1e1e2e;
+  background: #140c0c;
   border-radius: 0px;
   /* margin-left: 10px; */
   padding-right: 0px;
@@ -164,18 +164,18 @@ window#waybar {
 
 #temperature {
   border-radius: 0px;
-  color: #a6e3a1;
+  color: #e6bdbb;
   padding: 0 8px 0 8px;
   margin-right: 2px;
   margin-left: 0px;
 }
 
 #temperature.warning {
-  color: #89b4fa;
+  color: #ffb3b1;
 }
 
 #temperature.critical {
-  color: #f38ba8;
+  color: #ffb4ab;
 }
 
 #memory {
@@ -189,7 +189,7 @@ window#waybar {
 }
 
 #clock {
-  color: #cba6f7;
+  color: #ffb3b1;
   border-radius: 0px;
   margin-left: 2px;
   margin-right: 2px;
@@ -200,7 +200,7 @@ window#waybar {
 }
 
 #network {
-  color: #cba6f7;
+  color: #ffb3b1;
   /* margin-right: 5px; */
   /* margin-left: 5px; */
   /* border-radius: 10px 0px 0px 10px; */
@@ -208,8 +208,8 @@ window#waybar {
 }
 
 #mpris {
-  background: #1e1e2e;
-  color: #cba6f7;
+  background: #140c0c;
+  color: #ffb3b1;
   /* Lavender text */
   padding: 0 5px;
   margin: 2px 2px 0 4px;
@@ -218,25 +218,25 @@ window#waybar {
 }
 
 #mpris.playing {
-  /* border-bottom: 2px solid #cba6f7; */
-  /* box-shadow: 0 0 5px rgba(203, 166, 247, 0.4); */
+  /* border-bottom: 2px solid #ffb3b1; */
+  /* box-shadow: 0 0 5px rgba(255, 179, 177, 0.4); */
 }
 
 #mpris.paused {
-  color: #a6adc8;
+  color: #d7c1c0;
   /* Fade out the color when paused */
 }
 
 #pulseaudio,
 #bluetooth {
-  background: #1e1e2e;
+  background: #140c0c;
   /* margin-top: 0px; */
   /* margin-bottom: 3px; */
   padding: 0 10px;
 }
 
 #pulseaudio {
-  color: #cba6f7;
+  color: #ffb3b1;
   /* border-radius: 10px 0px 0px 10px; */
   margin-right: 0px;
   margin-left: 1px;
@@ -255,26 +255,26 @@ window#waybar {
 }
 
 #bluetooth {
-  color: #cba6f7;
+  color: #ffb3b1;
   border-radius: 0px;
   margin-left: 2px;
   margin-right: 2px;
 }
 
 #bluetooth.connected {
-  color: #cba6f7;
+  color: #ffb3b1;
   /* Optional: add a subtle background if connected */
-  background-color: #1e1e2e;
+  background-color: #140c0c;
   border-radius: 0px;
 }
 
 #bluetooth.disabled {
-  color: #585b70;
+  color: #a08c8b;
   /* Dimmed gray when off */
 }
 
 /* #pulseaudio.microphone { */
-/*     color: #a6adc8; */
+/*     color: #d7c1c0; */
 /*     border-radius: 0px 10px 10px 0px; */
 /*     border-left: 0px; */
 /*     border-right: 0px; */
@@ -282,31 +282,31 @@ window#waybar {
 /* } */
 
 #battery {
-  color: #cba6f7;
+  color: #ffb3b1;
   border-radius: 0px;
   margin-right: 0px;
   margin-left: 4px;
 }
 
 #custom-powerprofile {
-  background-color: #1e1e2e;
+  background-color: #140c0c;
   padding: 0px 8px 0px 8px;
   margin: 2px 1px 0px 2px;
   border-radius: 0px;
 }
 
 #custom-powerprofile.performance {
-  color: #f38ba8;
+  color: #ffb4ab;
   /* Catppuccin Red */
 }
 
 #custom-powerprofile.balanced {
-  color: #89b4fa;
+  color: #ffb3b1;
   /* Catppuccin Blue */
 }
 
 #custom-powerprofile.power-saver {
-  color: #a6e3a1;
+  color: #e6bdbb;
   /* Catppuccin Green */
 }
 

@@ -13,3 +13,8 @@ history
 /config/clipse/clipse.log
 /config/fish/conf.d/private.fish
 /config/nvim
+spotify.json
+*.spotify.json
+/config/quickshell/spotify.json
+__pycache__/
+*.py[cod]

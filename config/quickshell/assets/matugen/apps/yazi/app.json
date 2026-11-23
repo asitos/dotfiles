@@ -1,0 +1,38 @@
+{
+  "name": "Yazi",
+  "category": "tools",
+  "icon": "󰇥",
+  "hint": "restart",
+  "detect": {
+    "bin": [
+      "yazi"
+    ]
+  },
+  "templates": [
+    {
+      "input": "flavor.toml",
+      "output": "$XDG_CONFIG_HOME/yazi/flavors/jalpari.yazi/flavor.toml"
+    },
+    {
+      "input": "tmtheme.xml",
+      "output": "$XDG_CONFIG_HOME/yazi/flavors/jalpari.yazi/tmtheme.xml"
+    },
+    {
+      "input": "yatline.lua",
+      "output": "$XDG_CONFIG_HOME/yazi/yatline-theme.lua"
+    }
+  ],
+  "integrate": [
+    {
+      "type": "line",
+      "file": "$XDG_CONFIG_HOME/yazi/theme.toml",
+      "section": "flavor",
+      "line": [
+        "dark = \"jalpari\"",
+        "light = \"jalpari\""
+      ],
+      "disable": "^\\s*(dark|light)\\s*=",
+      "create": true
+    }
+  ]
+}

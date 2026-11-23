@@ -8,8 +8,9 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-added-large-files
-        args: ['--maxkb=2048']
+        args: ['--maxkb=4096']
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-yaml
         args: ['--allow-multiple-documents']
+        exclude: '^config/quickshell/assets/matugen/'

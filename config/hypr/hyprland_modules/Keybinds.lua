@@ -25,7 +25,7 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("~/.config/Scripts/toggle-speaker.sh"
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + ESCAPE", hl.dsp.exec_cmd("killall tofi tofi-drun hints hintsd"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("kitty -e yazi"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("serpantinum msg bar autohide"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("jalpari msg bar autohide"))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/Scripts/cava-hud.sh"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty --class clipse --title 'clipse-floating' -e clipse"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -s -m region --clipboard-only --freeze"))
@@ -181,34 +181,40 @@ hl.bind(mainMod .. " + CTRL + J", hl.dsp.window.move({ into_or_create_group = "d
 hl.bind(mainMod .. " + CTRL + U", hl.dsp.window.move({ out_of_group = true }))
 
 -- ----------------------------------------------------
--- ---- SERPANTINUM SHELL & VIM BINDS (SUPER + ALT) ----
+-- ---- JALPARI SHELL & QUICKACTIONS (SUPER + ALT) ----
 -- ----------------------------------------------------
 
--- Vim Directional Workspaces (H = Left/Prev, L = Right/Next)
-hl.bind(mainMod .. " + ALT + H", hl.dsp.focus({ workspace = "e-1" }))
-hl.bind(mainMod .. " + ALT + L", hl.dsp.focus({ workspace = "e+1" }))
+-- QuickActions Drawer & Vim Tab Navigation (H = Prev Tool, L = Next Tool)
+hl.bind(mainMod .. " + ALT + A", hl.dsp.exec_cmd("jalpari msg toggle quickactions"))
+hl.bind(mainMod .. " + ALT + H", hl.dsp.exec_cmd("jalpari msg toggle quickactions prev"))
+hl.bind(mainMod .. " + ALT + L", hl.dsp.exec_cmd("jalpari msg toggle quickactions next"))
+
+-- QuickActions Tools
+hl.bind(mainMod .. " + ALT + D", hl.dsp.exec_cmd("jalpari msg toggle quickactions draw"))
+hl.bind(mainMod .. " + ALT + T", hl.dsp.exec_cmd("jalpari msg toggle quickactions timer"))
+hl.bind(mainMod .. " + ALT + K", hl.dsp.exec_cmd("jalpari msg toggle quickactions calc"))
+hl.bind(mainMod .. " + ALT + equal", hl.dsp.exec_cmd("jalpari msg toggle quickactions calc"))
+hl.bind(mainMod .. " + ALT + J", hl.dsp.exec_cmd("jalpari msg toggle quickactions notes"))
+hl.bind(mainMod .. " + ALT + SHIFT + N", hl.dsp.exec_cmd("jalpari msg toggle quickactions notes"))
+hl.bind(mainMod .. " + ALT + I", hl.dsp.exec_cmd("jalpari msg toggle quickactions sysinfo"))
+hl.bind(mainMod .. " + ALT + U", hl.dsp.exec_cmd("jalpari msg toggle quickactions wellbeing"))
+hl.bind(mainMod .. " + ALT + Y", hl.dsp.exec_cmd("jalpari msg toggle quickactions spotify"))
+
+-- Directional Workspaces
 hl.bind(mainMod .. " + ALT + SHIFT + H", hl.dsp.window.move({ workspace = "e-1" }))
 hl.bind(mainMod .. " + ALT + SHIFT + L", hl.dsp.window.move({ workspace = "e+1" }))
 
--- Vim Vertical Adjustments (J/K = Volume Down/Up, SHIFT + J/K = Brightness Down/Up)
-hl.bind(mainMod .. " + ALT + J", hl.dsp.exec_cmd("serpantinum volume lower"), { repeating = true })
-hl.bind(mainMod .. " + ALT + K", hl.dsp.exec_cmd("serpantinum volume raise"), { repeating = true })
-hl.bind(mainMod .. " + ALT + SHIFT + J", hl.dsp.exec_cmd("brightnessctl set 10%-"), { repeating = true })
-hl.bind(mainMod .. " + ALT + SHIFT + K", hl.dsp.exec_cmd("brightnessctl set 10%+"), { repeating = true })
-
--- Vim Dismiss / Quit (Q / Escape closes active Serpantinum overlay)
-hl.bind(mainMod .. " + ALT + Q", hl.dsp.exec_cmd("serpantinum msg close"))
-hl.bind(mainMod .. " + ALT + ESCAPE", hl.dsp.exec_cmd("serpantinum msg close"))
+-- Vim Dismiss / Quit (Q / Escape closes active Jalpari overlay)
+hl.bind(mainMod .. " + ALT + Q", hl.dsp.exec_cmd("jalpari msg close"))
+hl.bind(mainMod .. " + ALT + ESCAPE", hl.dsp.exec_cmd("jalpari msg close"))
 
 -- Mnemonic Feature Toggles
-hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("serpantinum msg toggle wallpaper"))
-hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("serpantinum msg toggle system"))
-hl.bind(mainMod .. " + ALT + M", hl.dsp.exec_cmd("serpantinum msg toggle music"))
-hl.bind(mainMod .. " + ALT + C", hl.dsp.exec_cmd("serpantinum msg toggle calendar"))
-hl.bind(mainMod .. " + ALT + N", hl.dsp.exec_cmd("serpantinum msg toggle network"))
-hl.bind(mainMod .. " + ALT + V", hl.dsp.exec_cmd("serpantinum msg toggle volume"))
-hl.bind(mainMod .. " + ALT + U", hl.dsp.exec_cmd("serpantinum settings toggle wellbeing"))
-hl.bind(mainMod .. " + ALT + slash", hl.dsp.exec_cmd("serpantinum msg toggle settings"))
-hl.bind(mainMod .. " + ALT + S", hl.dsp.exec_cmd("serpantinum settings"))
-hl.bind(mainMod .. " + ALT + P", hl.dsp.exec_cmd("serpantinum redactor"))
-hl.bind(mainMod .. " + ALT + BackSpace", hl.dsp.exec_cmd("serpantinum restart"))
+hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("jalpari msg toggle wallpaper"))
+hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("jalpari msg toggle network bt"))
+hl.bind(mainMod .. " + ALT + M", hl.dsp.exec_cmd("jalpari msg toggle music"))
+hl.bind(mainMod .. " + ALT + C", hl.dsp.exec_cmd("jalpari msg toggle calendar"))
+hl.bind(mainMod .. " + ALT + N", hl.dsp.exec_cmd("jalpari msg toggle network"))
+hl.bind(mainMod .. " + ALT + V", hl.dsp.exec_cmd("jalpari msg toggle volume"))
+hl.bind(mainMod .. " + ALT + slash", hl.dsp.exec_cmd("jalpari msg toggle settings"))
+hl.bind(mainMod .. " + ALT + S", hl.dsp.exec_cmd("jalpari settings"))
+hl.bind(mainMod .. " + ALT + BackSpace", hl.dsp.exec_cmd("jalpari restart"))

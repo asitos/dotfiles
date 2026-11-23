@@ -13,6 +13,7 @@ hl.config({
     initial_workspace_tracking = 2,
     enable_swallow = true,
     swallow_regex = "^(kitty)$",
+    swallow_exception_regex = "^(one\\.alynx\\.showmethekey)$",
     middle_click_paste = true,
     render_unfocused_fps = 15,
     disable_autoreload = false,

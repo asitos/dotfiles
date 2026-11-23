@@ -15,7 +15,7 @@ prompt-text = ":"
 prompt-padding = 0
 
 
-background-color = #1e1e2e22
-input-color = #b4befe
-text-color = #7f849c
-selection-color = #b4befe
+background-color = #140c0ce6
+input-color = #ffb3b1
+text-color = #a08c8b
+selection-color = #ffb3b1

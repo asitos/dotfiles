@@ -1,0 +1,129 @@
+[mgr]
+cwd = { fg = "#ffb3b1", bold = true }
+find_keyword = { fg = "#fdb787", bold = true, italic = true, underline = true }
+find_position = { fg = "#fdb787", bold = true }
+marker_copied = { fg = "#f5b9a5", bg = "#f5b9a5" }
+marker_cut = { fg = "#ffb4ab", bg = "#ffb4ab" }
+marker_marked = { fg = "#fdb787", bg = "#fdb787" }
+marker_selected = { fg = "#ffb3b1", bg = "#ffb3b1" }
+count_copied = { fg = "#3d1a0e", bg = "#f5b9a5" }
+count_cut = { fg = "#520003", bg = "#ffb4ab" }
+count_selected = { fg = "#51000c", bg = "#ffb3b1" }
+border_symbol = "│"
+border_style = { fg = "#7d6767" }
+
+[indicator]
+parent = { fg = "#ffe9e8", bg = "#3b2a2a" }
+current = { fg = "#ffffff", bg = "#916150" }
+preview = { fg = "#ffe9e8", bg = "#3b2a2a" }
+
+[tabs]
+active = { fg = "#51000c", bg = "#ffb3b1", bold = true }
+inactive = { fg = "#dbc0bf", bg = "#3b2a2a" }
+
+[mode]
+normal_main = { fg = "#51000c", bg = "#ffb3b1", bold = true }
+normal_alt = { fg = "#ffb3b1", bg = "#3b2a2a" }
+select_main = { fg = "#3d1a0e", bg = "#f5b9a5", bold = true }
+select_alt = { fg = "#f5b9a5", bg = "#3b2a2a" }
+unset_main = { fg = "#3d1b00", bg = "#fdb787", bold = true }
+unset_alt = { fg = "#fdb787", bg = "#3b2a2a" }
+
+[status]
+overall = { fg = "#ffe9e8", bg = "#30201f" }
+progress_label = { fg = "#ffe9e8", bold = true }
+progress_normal = { fg = "#ffb3b1", bg = "#473534" }
+progress_error = { fg = "#ffb4ab", bg = "#473534" }
+perm_type = { fg = "#ffb3b1" }
+perm_read = { fg = "#fdb787" }
+perm_write = { fg = "#ffb4ab" }
+perm_exec = { fg = "#f5b9a5" }
+perm_sep = { fg = "#ae9594" }
+
+[input]
+border = { fg = "#ffb3b1" }
+title = { fg = "#ffe9e8" }
+value = { fg = "#ffe9e8" }
+selected = { reversed = true }
+
+[cmp]
+border = { fg = "#ffb3b1" }
+active = { fg = "#ffffff", bg = "#916150" }
+inactive = { fg = "#ffe9e8" }
+
+[tasks]
+border = { fg = "#ffb3b1" }
+title = { fg = "#ffe9e8" }
+hovered = { fg = "#ffb3b1", underline = true }
+
+[which]
+mask = { bg = "#30201f" }
+cand = { fg = "#ffb3b1" }
+rest = { fg = "#ae9594" }
+desc = { fg = "#fdb787" }
+separator = "  "
+separator_style = { fg = "#ae9594" }
+
+[help]
+on = { fg = "#ffb3b1" }
+run = { fg = "#fdb787" }
+hovered = { reversed = true, bold = true }
+footer = { fg = "#ffe9e8", bg = "#3b2a2a" }
+
+[notify]
+title_info = { fg = "#f5b9a5" }
+title_warn = { fg = "#fdb787" }
+title_error = { fg = "#ffb4ab" }
+
+[filetype]
+rules = [
+    { mime = "image/*", fg = "#fdb787" },
+    { mime = "{audio,video}/*", fg = "#f5b9a5" },
+    { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#ffb4ab" },
+    { mime = "application/{pdf,doc,rtf}", fg = "#fdb787" },
+    { url = "*", is = "orphan", fg = "#ffffff", bg = "#cf2c27" },
+    { url = "*", is = "exec", fg = "#f5b9a5" },
+    { url = "*", fg = "#ffe9e8" },
+    { url = "*/", fg = "#ffb3b1", bold = true },
+]
+
+[pick]
+border = { fg = "#7d6767" }
+active = { fg = "#ffb3b1", bold = true }
+inactive = { fg = "#ffe9e8" }
+
+[spot]
+border = { fg = "#7d6767" }
+title = { fg = "#ffb3b1" }
+tbl_col = { fg = "#f5b9a5" }
+
+[icon]
+dirs = [
+	{ name = ".config", text = "", fg = "#fdb787" },
+	{ name = ".git", text = "", fg = "#f5b9a5" },
+	{ name = ".github", text = "", fg = "#ffb3b1" },
+	{ name = ".npm", text = "", fg = "#fdb787" },
+	{ name = "Desktop", text = "", fg = "#ffb3b1" },
+	{ name = "Development", text = "", fg = "#f5b9a5" },
+	{ name = "Documents", text = "", fg = "#fdb787" },
+	{ name = "Downloads", text = "", fg = "#ffb3b1" },
+	{ name = "Library", text = "", fg = "#f5b9a5" },
+	{ name = "Movies", text = "", fg = "#f5b9a5" },
+	{ name = "Music", text = "", fg = "#fdb787" },
+	{ name = "Pictures", text = "", fg = "#fdb787" },
+	{ name = "Public", text = "", fg = "#ffb3b1" },
+	{ name = "Videos", text = "", fg = "#f5b9a5" },
+]
+conds = [
+	{ if = "orphan", text = "", fg = "#ffb4ab" },
+	{ if = "link", text = "", fg = "#ffb3b1" },
+	{ if = "block", text = "", fg = "#f5b9a5" },
+	{ if = "char", text = "", fg = "#f5b9a5" },
+	{ if = "fifo", text = "", fg = "#f5b9a5" },
+	{ if = "sock", text = "", fg = "#f5b9a5" },
+	{ if = "sticky", text = "", fg = "#f5b9a5" },
+	{ if = "dummy", text = "", fg = "#ffb4ab" },
+	{ if = "dir", text = "", fg = "#ffb3b1" },
+	{ if = "exec", text = "", fg = "#f5b9a5" },
+	{ if = "!dir", text = "", fg = "#ffe9e8" },
+]

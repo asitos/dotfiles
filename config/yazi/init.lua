@@ -25,18 +25,24 @@ require("smart-enter"):setup {
 	open_multi = true,
 }
 
--- Generate Catppuccin Mocha theme with lavender/mauve accent
-local catppuccin_theme = require("yatline-catppuccin"):setup("mocha")
-catppuccin_theme.style_a.bg_mode.normal = "#b4befe" -- lavender
-catppuccin_theme.style_a.bg_mode.select = "#cba6f7" -- mauve/purple
-catppuccin_theme.style_a.bg_mode.un_set = "#f5c2e7" -- pink
-catppuccin_theme.style_b.fg = "#cba6f7"
-catppuccin_theme.style_c.fg = "#b4befe"
-catppuccin_theme.found = { icon = "", fg = "#b4befe" }
+-- Theme setup: prefer dynamic Matugen theme, fallback to Catppuccin Mocha
+local config_dir = (os.getenv("YAZI_CONFIG_HOME") or (os.getenv("HOME") .. "/.config")) .. "/yazi"
+package.path = package.path .. ";" .. config_dir .. "/?.lua"
+
+local ok, yatline_theme = pcall(require, "yatline-theme")
+if not ok or not yatline_theme then
+	yatline_theme = require("yatline-catppuccin"):setup("mocha")
+	yatline_theme.style_a.bg_mode.normal = "#b4befe" -- lavender
+	yatline_theme.style_a.bg_mode.select = "#cba6f7" -- mauve/purple
+	yatline_theme.style_a.bg_mode.un_set = "#f5c2e7" -- pink
+	yatline_theme.style_b.fg = "#cba6f7"
+	yatline_theme.style_c.fg = "#b4befe"
+	yatline_theme.found = { icon = "", fg = "#b4befe" }
+end
 
 -- Yatline status & header line
 require("yatline"):setup({
-    theme = catppuccin_theme,
+    theme = yatline_theme,
 
     section_separator = { open = "", close = "" },
     part_separator = { open = "", close = "" },
@@ -44,16 +50,6 @@ require("yatline"):setup({
 
     tab_width = 20,
     tab_use_inverse = false,
-
-    selected = { icon = "󰻭", fg = "#f5c2e7" },
-    copied = { icon = "", fg = "#b4befe" },
-    cut = { icon = "", fg = "#f38ba8" },
-
-    total = { icon = "󰮍", fg = "#cba6f7" },
-    succ = { icon = "", fg = "#a6e3a1" },
-    fail = { icon = "", fg = "#f38ba8" },
-    found = { icon = "󰮕", fg = "#b4befe" },
-    processed = { icon = "󰐍", fg = "#f5c2e7" },
 
     show_background = true,
 

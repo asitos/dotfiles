@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-# Toggle Quickshell Serpantinum bar
-serpantinum msg bar autohide
+# Toggle Waybar visibility
+killall -SIGUSR1 waybar 2>/dev/null || true
