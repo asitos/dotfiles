@@ -1,0 +1,26 @@
+{
+  "name": "Rio",
+  "category": "terminals",
+  "icon": "",
+  "detect": {
+    "bin": [
+      "rio"
+    ]
+  },
+  "templates": [
+    {
+      "input": "jalpari.toml",
+      "output": "$XDG_CONFIG_HOME/rio/themes/jalpari.toml"
+    }
+  ],
+  "integrate": [
+    {
+      "type": "line",
+      "file": "$XDG_CONFIG_HOME/rio/config.toml",
+      "section": "",
+      "line": "theme = \"jalpari\"",
+      "disable": "^\\s*theme\\s*=",
+      "create": true
+    }
+  ]
+}

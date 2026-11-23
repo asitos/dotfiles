@@ -14,7 +14,8 @@
       - kitty
       - fish
       - neovim
-      - waybar
+      - quickshell
+      - matugen
       - hyprland
       - btop
       - yazi
@@ -36,6 +37,8 @@
       - Scripts
       - bongocat
       - haj
+      - quickshell
+      - ski
 
   tasks:
     - name: ensure .config base directory exists

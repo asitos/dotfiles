@@ -1,0 +1,40 @@
+{
+  "name": "KDE apps",
+  "category": "system",
+  "icon": "󰣇",
+  "hint": "restart",
+  "detect": {
+    "bin": [
+      "dolphin",
+      "kate",
+      "kwrite",
+      "okular",
+      "gwenview",
+      "ark",
+      "kdenlive",
+      "krita",
+      "konsole",
+      "plasmashell"
+    ]
+  },
+  "templates": [
+    {
+      "input": "Jalpari.colors",
+      "output": "$XDG_DATA_HOME/color-schemes/Jalpari.colors"
+    }
+  ],
+  "integrate": [
+    {
+      "type": "ini",
+      "file": "$XDG_CONFIG_HOME/kdeglobals",
+      "values_from": "$XDG_DATA_HOME/color-schemes/Jalpari.colors",
+      "sections": "^(Colors:|ColorEffects:|WM$)",
+      "values": {
+        "General": {
+          "ColorScheme": "Jalpari"
+        }
+      },
+      "create": true
+    }
+  ]
+}

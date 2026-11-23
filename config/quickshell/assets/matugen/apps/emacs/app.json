@@ -1,0 +1,43 @@
+{
+  "name": "Emacs",
+  "category": "editors",
+  "icon": "",
+  "hint": "emacs",
+  "detect": {
+    "bin": [
+      "emacs"
+    ]
+  },
+  "templates": [
+    {
+      "input": "jalpari-theme.el",
+      "output": "$XDG_CONFIG_HOME/emacs/jalpari-theme.el",
+      "when": {
+        "path": [
+          "$XDG_CONFIG_HOME/emacs"
+        ]
+      }
+    },
+    {
+      "input": "jalpari-theme.el",
+      "output": "$HOME/.emacs.d/jalpari-theme.el",
+      "when": {
+        "path": [
+          "$HOME/.emacs.d"
+        ]
+      }
+    },
+    {
+      "input": "jalpari-theme.el",
+      "output": "$XDG_CONFIG_HOME/doom/themes/jalpari-theme.el",
+      "when": {
+        "path": [
+          "$XDG_CONFIG_HOME/doom"
+        ]
+      }
+    }
+  ],
+  "reload": [
+    "command -v emacsclient >/dev/null 2>&1 && timeout 3 emacsclient -e \"(when (custom-theme-enabled-p 'jalpari) (load-theme 'jalpari t))\" >/dev/null 2>&1; true"
+  ]
+}

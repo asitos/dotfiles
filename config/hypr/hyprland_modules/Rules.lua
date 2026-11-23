@@ -83,8 +83,8 @@ hl.window_rule({
 hl.layer_rule({
 	name = "tofi",
 	match = { namespace = "tofi" },
-	ignore_alpha = 0.8,
-	animation = "popin 80%",
+	ignore_alpha = 0.5,
+	-- animation = "popin 100%",
 })
 
 hl.layer_rule({
@@ -92,6 +92,7 @@ hl.layer_rule({
 	match = { namespace = "notifications" },
 	blur = true,
 	ignore_alpha = 0,
+	no_screen_share = true,
 	animation = "slide right",
 })
 
@@ -166,4 +167,31 @@ hl.window_rule({
 	pin = true,
 	decorate = false,
 	size = { "(monitor_w*0.55)", "(monitor_h*0.60)" },
+})
+
+hl.window_rule({
+	name = "showmethekey-overlay",
+	match = {
+		class = "^(one\\.alynx\\.showmethekey)$",
+		title = "^(Floating Window - Show Me The Key)$",
+	},
+	float = true,
+	pin = true,
+	border_size = 0,
+	no_initial_focus = true,
+	no_focus = true,
+	suppress_event = "activate activatefocus",
+	move = { "(monitor_w-500)/2", "monitor_h-110" },
+	size = { 500, 80 },
+})
+
+hl.window_rule({
+	name = "showmethekey-settings",
+	match = {
+		class = "^(one\\.alynx\\.showmethekey)$",
+		title = "^(Show Me The Key)$",
+	},
+	float = true,
+	center = true,
+	size = { 700, 600 },
 })

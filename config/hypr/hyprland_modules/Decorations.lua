@@ -34,8 +34,8 @@ hl.config({
 
 	group = {
 		col = {
-			border_active = 0xffb4befe,
-			border_inactive = 0x66313244,
+			border_active = 0xffffb3b1,
+			border_inactive = 0x66271d1d,
 		},
 		groupbar = {
 			enabled = true,
@@ -45,10 +45,10 @@ hl.config({
 			render_titles = false,
 			gradients = false,
 			col = {
-				active = 0xffb4befe,
-				inactive = 0xcc313244,
+				active = 0xffffb3b1,
+				inactive = 0xcc271d1d,
 			},
-			text_color = 0xff11111b,
+			text_color = 0xff140c0c,
 		},
 	},
 })

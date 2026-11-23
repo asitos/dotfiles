@@ -16,3 +16,6 @@ fi
 
 # Refresh Waybar Module Immediately
 pkill -RTMIN+8 waybar
+
+# Refresh Quickshell Module Immediately
+quickshell -p "$(realpath "$HOME/.config/quickshell/Shell.qml" 2>/dev/null || echo "$HOME/.config/quickshell/Shell.qml")" ipc call powerprofile refresh 2>/dev/null || true

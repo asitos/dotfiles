@@ -1,0 +1,29 @@
+{
+  "name": "aerc",
+  "category": "apps",
+  "icon": "󰇮",
+  "hint": "restart",
+  "detect": {
+    "bin": [
+      "aerc"
+    ]
+  },
+  "templates": [
+    {
+      "input": "jalpari",
+      "output": "$XDG_CONFIG_HOME/aerc/stylesets/jalpari"
+    }
+  ],
+  "integrate": [
+    {
+      "type": "ini",
+      "file": "$XDG_CONFIG_HOME/aerc/aerc.conf",
+      "values": {
+        "ui": {
+          "styleset-name": "jalpari"
+        }
+      },
+      "create": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Clipse",
+  "category": "tools",
+  "icon": "󰅌",
+  "detect": {
+    "bin": [
+      "clipse"
+    ]
+  },
+  "templates": [
+    {
+      "input": "custom_theme.json",
+      "output": "$XDG_CONFIG_HOME/clipse/custom_theme.json"
+    }
+  ]
+}

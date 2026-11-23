@@ -1,0 +1,18 @@
+[config]
+reload_apps = false
+
+[templates.quickshell]
+input_path = "templates/jalpari_matugen_colors.json.template"
+output_path = "~/.local/state/quickshell/qs_colors.json"
+
+[templates.quickshell_matugen]
+input_path = "templates/jalpari_matugen_colors.json.template"
+output_path = "~/.local/state/quickshell/qs_matugen_colors.json"
+
+[templates.jalpari]
+input_path = "templates/jalpari_matugen_colors.json.template"
+output_path = "~/.local/state/jalpari/qs_colors.json"
+
+[templates.jalpari_matugen]
+input_path = "templates/jalpari_matugen_colors.json.template"
+output_path = "~/.local/state/jalpari/qs_matugen_colors.json"

@@ -31,5 +31,23 @@ for item_path in "$DOTFILES_DIR"/config/*; do
     fi
 done
 
+# Remove jalpari config alias
+if [ -L "$CONFIG_DIR/jalpari" ]; then
+    rm "$CONFIG_DIR/jalpari"
+    echo "  [removed]  jalpari"
+fi
+
+# Remove binary symlinks
+if [ -d "$DOTFILES_DIR/config/quickshell/bin" ]; then
+    for bin_path in "$DOTFILES_DIR/config/quickshell/bin"/*; do
+        bin_name="$(basename "$bin_path")"
+        target="$HOME/.local/bin/$bin_name"
+        if [ -L "$target" ] && [ "$(readlink -f "$target")" = "$(readlink -f "$bin_path")" ]; then
+            rm "$target"
+            echo "  [removed bin] $bin_name"
+        fi
+    done
+fi
+
 echo ""
 echo "==> Uninstall complete! Original configurations restored."

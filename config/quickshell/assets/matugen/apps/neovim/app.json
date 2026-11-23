@@ -1,0 +1,28 @@
+{
+  "name": "Neovim",
+  "category": "editors",
+  "icon": "",
+  "hint": "neovim",
+  "detect": {
+    "bin": [
+      "nvim"
+    ]
+  },
+  "templates": [
+    {
+      "input": "jalpari.lua",
+      "output": "$XDG_CONFIG_HOME/nvim/colors/jalpari.lua"
+    },
+    {
+      "input": "jalpari_colors.lua",
+      "output": "$XDG_CONFIG_HOME/nvim/lua/jalpari_colors.lua"
+    },
+    {
+      "input": "lualine.lua",
+      "output": "$XDG_CONFIG_HOME/nvim/lua/lualine/themes/jalpari.lua"
+    }
+  ],
+  "reload": [
+    "for s in \"${XDG_RUNTIME_DIR:-/tmp}\"/nvim.*; do [ -S \"$s\" ] && timeout 2 nvim --server \"$s\" --remote-expr 'execute(\"if get(g:, \\\"colors_name\\\", \\\"\\\") ==# \\\"jalpari\\\" | colorscheme jalpari | endif\")' >/dev/null 2>&1; done; true"
+  ]
+}
