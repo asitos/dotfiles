@@ -778,14 +778,9 @@ ShellRoot {
 
                     MouseArea {
                         anchors.fill: parent
-                        acceptedButtons: Qt.RightButton | Qt.LeftButton
-                        onClicked: mouse => {
-                            if (mouse.button === Qt.RightButton) {
-                                DesktopMenuController.toggle(barWindow.screen, mouse.x, mouse.y, "desktop");
-                            } else {
-                                DesktopMenuController.hide();
-                            }
-                        }
+                        enabled: DesktopMenuController.isVisible
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        onClicked: DesktopMenuController.hide()
                     }
                 }
             }

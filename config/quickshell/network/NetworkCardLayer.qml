@@ -173,7 +173,7 @@ Item {
                         floatCardDelegateContainer.isCardHovered = hovered;
                         if (hovered) {
                             window.hoveredCardCount++;
-                            window.selectedIndex = index;
+                            window.selectIndex(index);
                         } else {
                             window.hoveredCardCount = Math.max(0, window.hoveredCardCount - 1);
                         }
@@ -214,6 +214,31 @@ Item {
                 return n !== "" ? n : (typeof ssid !== "undefined" ? ssid : "");
             }
 
+            readonly property string fixedMnemonicKey: window.cardMnemonicKey(itemId)
+            readonly property var deviceMnemonicEntry: (window.deviceKeyMap && itemId && window.deviceKeyMap[itemId]) ? window.deviceKeyMap[itemId] : null
+            readonly property bool hasMnemonic: fixedMnemonicKey !== "" || deviceMnemonicEntry !== null
+            readonly property color mnemonicHighlightColor: {
+                if (isFailed) return ThemeBackend.red;
+                if (isKeyboardSelected || (isHighlighted && !ThemeBackend.liquidGlass)) return ThemeBackend.text;
+                return ThemeBackend.liquidGlass ? Qt.lighter(window.activeColor, 1.3) : window.activeColor;
+            }
+            readonly property color mnemonicRestColor: Qt.alpha(dynamicTextColor, 0.7)
+            function buildCardLabel(hlCol, restCol) {
+                if (fixedMnemonicKey !== "") {
+                    return window.formatMnemonic(myButtonText, fixedMnemonicKey, hlCol, restCol);
+                }
+                if (deviceMnemonicEntry) {
+                    if (deviceMnemonicEntry.isPrefix) {
+                        return "<font color=\"" + hlCol + "\"><u><b>" + window.escapeHtml(deviceMnemonicEntry.key) + "</b></u></font> "
+                            + "<font color=\"" + restCol + "\">" + window.escapeHtml(myButtonText) + "</font>";
+                    }
+                    return window.formatMnemonic(myButtonText, deviceMnemonicEntry.matchIdx, hlCol, restCol);
+                }
+                return myButtonText;
+            }
+            readonly property string displayButtonText: hasMnemonic ? buildCardLabel(mnemonicHighlightColor, mnemonicRestColor) : myButtonText
+            readonly property string filledDisplayButtonText: hasMnemonic ? buildCardLabel(filledContentColor, Qt.alpha(filledContentColor, 0.72)) : myButtonText
+
             property string myButtonIcon: typeof icon !== "undefined" ? icon : ""
             property bool isMyActionable: typeof isActionable !== "undefined" ? isActionable : true
 
@@ -238,7 +263,7 @@ Item {
                     floatCardDelegateContainer.isCardHovered = false;
                     window.hoveredCardCount = 0;
                     window.showInfoView = !window.showInfoView;
-                } else if (currentIsInfoNode && currentAction === "IP Address") {
+                } else if (currentIsInfoNode && (itemId === "ip" || itemId.indexOf("ip_") === 0 || currentAction === "IP Address")) {
                     let itemName = myButtonText;
                     if (itemName && itemName !== "No IP" && itemName !== "Unknown") {
                         Sounds.playSfx("network/switch.wav");
@@ -246,27 +271,7 @@ Item {
                     }
                 } else if (currentIsInfoNode && currentCmd) {
                     if (currentCmd.indexOf("BT_FORGET_") === 0) {
-                        let macToForget = currentCmd.substring(10);
-                        window.withBtOpLock(macToForget, function() {
-                            let devList = window.getBtDevicesList();
-                            let devToForget = null;
-                            for (let i = 0; i < devList.length; i++) {
-                                if (devList[i] && devList[i].address === macToForget) { devToForget = devList[i]; break; }
-                            }
-                            if (!devToForget) return;
-
-                            let map = Object.assign({}, window.btDeviceMap);
-                            delete map[macToForget];
-                            window.btDeviceMap = map;
-
-                            let bt = window.busyTasks; delete bt[macToForget]; window.busyTasks = Object.assign({}, bt);
-                            let dd = window.disconnectingDevices; delete dd[macToForget]; window.disconnectingDevices = Object.assign({}, dd);
-                            if (window.connectingId === macToForget) window.connectingId = "";
-                            if (window.failedId === macToForget) window.failedId = "";
-
-                            devToForget.forget();
-                            window.requestBtRebuild();
-                        });
+                        window.forgetBtDevice(currentCmd.substring(10));
                     } else {
                         Quickshell.execDetached(["sh", "-c", currentCmd]);
                     }
@@ -381,7 +386,8 @@ Item {
                             id: marqueeClip
                             width: floatCardDelegateContainer.width - window.s(20) - (overlayIcon.visible ? overlayIcon.implicitWidth + window.s(6) : 0)
                             height: parent.height
-                            text: myButtonText
+                            textFormat: floatCardDelegateContainer.hasMnemonic ? Text.StyledText : Text.PlainText
+                            text: floatCardDelegateContainer.displayButtonText
                             font.family: ThemeBackend.fontFamily
                             font.weight: Font.Bold
                             font.pixelSize: window.s(12)
@@ -443,7 +449,8 @@ Item {
                                             spacing: marqueeClip.marqueeSpacing
 
                                             Text {
-                                                text: myButtonText
+                                                textFormat: floatCardDelegateContainer.hasMnemonic ? Text.StyledText : Text.PlainText
+                                                text: floatCardDelegateContainer.filledDisplayButtonText
                                                 font.family: ThemeBackend.fontFamily
                                                 font.weight: Font.Bold
                                                 font.pixelSize: window.s(12)
@@ -451,7 +458,8 @@ Item {
                                             }
 
                                             Text {
-                                                text: myButtonText
+                                                textFormat: floatCardDelegateContainer.hasMnemonic ? Text.StyledText : Text.PlainText
+                                                text: floatCardDelegateContainer.filledDisplayButtonText
                                                 font.family: ThemeBackend.fontFamily
                                                 font.weight: Font.Bold
                                                 font.pixelSize: window.s(12)

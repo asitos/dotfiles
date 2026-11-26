@@ -10,6 +10,7 @@ Item {
     implicitHeight: 32
 
     property var options: ["x", "y"]
+    property var optionDisplayTexts: []
     property int currentIndex: 0
 
     property color accentColor: ThemeBackend.blue
@@ -261,12 +262,16 @@ Item {
                     }
 
                     Text {
+                        readonly property string displayOverride: (root.optionDisplayTexts && root.optionDisplayTexts.length > optionItem.index && root.optionDisplayTexts[optionItem.index])
+                            ? root.optionDisplayTexts[optionItem.index]
+                            : ""
                         anchors.fill: parent
                         anchors.leftMargin: root.horizontalPadding
                         anchors.rightMargin: root.horizontalPadding
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        text: optionItem.modelData
+                        textFormat: displayOverride !== "" ? Text.StyledText : Text.PlainText
+                        text: displayOverride !== "" ? displayOverride : optionItem.modelData
                         font.family: ThemeBackend.fontFamily
                         font.weight: Font.Normal
                         font.pixelSize: root.fontPixelSize

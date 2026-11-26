@@ -85,15 +85,14 @@ keep_mtime() {
 }
 
 get_location() {
-    if [[ -n "$LOC_ARG" && "$LOC_ARG" != "null" && "$LOC_ARG" != "{}" ]]; then
+    if [[ -n "$LOC_ARG" ]] && echo "$LOC_ARG" | has_valid_location; then
         echo "$LOC_ARG"
         return
     fi
-    local gen_json loc_json
-    gen_json="$(get_setting "general" '{}')"
-    loc_json="$(echo "$gen_json" | jq -c '.location // empty' 2>/dev/null)"
+    local loc_json script_dir
+    loc_json="$(get_saved_location)"
 
-    if [[ -z "$loc_json" || "$loc_json" == "null" ]]; then
+    if [[ -z "$loc_json" ]]; then
         script_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
         if [[ "$VERBOSE" == "true" ]]; then
             loc_json="$("${script_dir}/location.sh" --verbose)"

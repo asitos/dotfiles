@@ -5,7 +5,7 @@ source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/config.sh"
 lat="$1"
 lon="$2"
 
-if [[ -z "$lat" || -z "$lon" ]]; then
+if ! [[ "$lat" =~ ^-?[0-9]+(\.[0-9]+)?$ && "$lon" =~ ^-?[0-9]+(\.[0-9]+)?$ ]]; then
     exit 1
 fi
 
@@ -41,7 +41,5 @@ json="$(jq -n \
         updated_at: $ts
     }')"
 
-gen="$(get_setting "general" '{}')"
-updated="$(echo "$gen" | jq --argjson loc "$json" '.location = $loc')"
-set_setting "general" "$updated"
+save_location_state "$json"
 "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/weather.sh" --getdata >/dev/null 2>&1 &

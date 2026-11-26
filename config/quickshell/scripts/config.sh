@@ -3,6 +3,37 @@
 source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/caching.sh"
 
 CONFIG_SETTINGS_JSON="${QS_SETTINGS:-$HOME/.config/quickshell/settings.json}"
+LOCATION_STATE_JSON="${QS_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/quickshell}/location.json"
+
+has_valid_location() {
+    jq -e 'type == "object" and .latitude != null and .longitude != null' >/dev/null 2>&1
+}
+
+get_saved_location() {
+    if [[ -s "$LOCATION_STATE_JSON" ]] && has_valid_location < "$LOCATION_STATE_JSON"; then
+        jq -c '.' "$LOCATION_STATE_JSON" 2>/dev/null
+        return
+    fi
+    local legacy
+    legacy="$(get_setting "general" '{}' | jq -c '.location // empty' 2>/dev/null)"
+    if [[ -n "$legacy" ]] && echo "$legacy" | has_valid_location; then
+        printf '%s\n' "$legacy"
+    fi
+}
+
+save_location_state() {
+    local loc_data="$1"
+    local dir tmp
+    dir="$(dirname "$LOCATION_STATE_JSON")"
+    [[ -d "$dir" ]] || mkdir -p "$dir"
+    tmp="${LOCATION_STATE_JSON}.tmp.$$"
+    if echo "$loc_data" | jq -c '.' > "$tmp" 2>/dev/null && [[ -s "$tmp" ]]; then
+        mv "$tmp" "$LOCATION_STATE_JSON"
+    else
+        rm -f "$tmp"
+        return 1
+    fi
+}
 
 _config_ensure_settings() {
     local dir

@@ -25,8 +25,8 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("~/.config/Scripts/toggle-speaker.sh"
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + ESCAPE", hl.dsp.exec_cmd("killall tofi tofi-drun hints hintsd"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("kitty -e yazi"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("jalpari msg bar autohide"))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/Scripts/cava-hud.sh"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("jalpari msg bar autohide"))
+-- hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/Scripts/cava-hud.sh"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty --class clipse --title 'clipse-floating' -e clipse"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -s -m region --clipboard-only --freeze"))
 hl.bind(mainMod .. " + SHIFT + c", hl.dsp.exec_cmd("hyprshot -s -m region --freeze -o $HOME/Pictures/screenshots"))
@@ -179,6 +179,8 @@ hl.bind(mainMod .. " + CTRL + L", hl.dsp.window.move({ into_or_create_group = "r
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.move({ into_or_create_group = "up" }))
 hl.bind(mainMod .. " + CTRL + J", hl.dsp.window.move({ into_or_create_group = "down" }))
 hl.bind(mainMod .. " + CTRL + U", hl.dsp.window.move({ out_of_group = true }))
+
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("wayhint"))
 
 -- ----------------------------------------------------
 -- ---- JALPARI SHELL & QUICKACTIONS (SUPER + ALT) ----

@@ -7,8 +7,15 @@ import "../../"
 Item {
     id: root
 
-    property var locationData: (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.general && Config.rawSettings.general.location) ? Config.rawSettings.general.location : ({})
+    readonly property string stateLocationPath: (typeof Caching !== "undefined" && Caching.stateDir) ? (Caching.stateDir + "/location.json") : ""
+    property var stateLocationData: ({})
+    readonly property var configLocationData: (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.general && Config.rawSettings.general.location) ? Config.rawSettings.general.location : ({})
+    readonly property var locationData: hasCoords(stateLocationData) ? stateLocationData : (hasCoords(configLocationData) ? configLocationData : ({}))
     property bool isDetecting: false
+
+    function hasCoords(obj) {
+        return !!(obj && typeof obj === "object" && obj.latitude !== undefined && obj.latitude !== null && obj.longitude !== undefined && obj.longitude !== null);
+    }
 
     readonly property string ip: locationData.ip || ""
     readonly property real latitude: locationData.latitude !== undefined ? Number(locationData.latitude) : 0.0
@@ -47,10 +54,30 @@ Item {
     Connections {
         target: typeof Config !== "undefined" ? Config : null
         function onSettingsLoaded() {
-            let gs = Config.getSetting("general", {});
-            root.locationData = gs && gs.location ? gs.location : {};
             root.isDetecting = false;
             root.locationUpdated();
+        }
+    }
+
+    FileView {
+        id: locationFileWatcher
+        path: root.stateLocationPath
+        watchChanges: true
+        onPathChanged: if (path) reload()
+        onFileChanged: reload()
+        onLoaded: {
+            try {
+                let raw = typeof text === "function" ? text() : text;
+                if (typeof raw === "string" && raw.trim().length > 0) {
+                    let parsed = JSON.parse(raw.trim());
+                    if (root.hasCoords(parsed)) {
+                        root.stateLocationData = parsed;
+                        return;
+                    }
+                }
+            } catch (e) {
+            }
+            root.stateLocationData = ({});
         }
     }
 
@@ -86,6 +113,7 @@ Item {
         command: ["bash", "-c", Caching.quickshellDir + "/scripts/location.sh --refresh"]
         onExited: {
             root.isDetecting = false;
+            if (locationFileWatcher.path) locationFileWatcher.reload();
         }
     }
 
@@ -96,15 +124,13 @@ Item {
         command: ["bash", "-c", Caching.quickshellDir + "/scripts/location_manual.sh '" + lat + "' '" + lon + "'"]
         onExited: {
             root.isDetecting = false;
+            if (locationFileWatcher.path) locationFileWatcher.reload();
         }
     }
 
     Component.onCompleted: {
-        if (typeof Config !== "undefined" && Config.dataReady) {
-            let gs = Config.getSetting("general", {});
-            if (gs && gs.location) {
-                root.locationData = gs.location;
-            }
+        if (locationFileWatcher.path) {
+            locationFileWatcher.reload();
         }
     }
 }

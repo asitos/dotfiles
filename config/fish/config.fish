@@ -30,6 +30,7 @@ if status is-interactive
     alias gf="git fetch"
     alias gcl="git clone"
     alias gp="git push origin"
+    alias gpu="git push -u origin"
     alias gpl="git pull origin"
     alias ga="git add ."
     alias gs="git status"

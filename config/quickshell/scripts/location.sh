@@ -23,18 +23,11 @@ log_debug() {
 }
 
 get_existing_location() {
-    local gen
-    gen="$(get_setting "general" '{}')"
-    echo "$gen" | jq -c '.location // empty' 2>/dev/null
+    get_saved_location
 }
 
 save_location() {
-    local loc_data="$1"
-    local gen
-    gen="$(get_setting "general" '{}')"
-    local updated
-    updated="$(echo "$gen" | jq --argjson loc "$loc_data" '.location = $loc')"
-    set_setting "general" "$updated"
+    save_location_state "$1" || return 1
     "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/weather.sh" --getdata >/dev/null 2>&1 &
 }
 
@@ -183,7 +176,6 @@ resolve_location() {
         log_debug "No location data or config available. Defaulting to fallback payload."
         local fallback
         fallback='{"latitude": 0.0, "longitude": 0.0, "city": "Unknown", "region": "Unknown", "country_name": "Unknown", "timezone": "UTC", "updated_at": 0}'
-        save_location "$fallback"
         echo "$fallback"
     fi
 }

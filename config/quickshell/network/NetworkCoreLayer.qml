@@ -385,8 +385,20 @@ Item {
                             id: coreStatusText
                             Layout.alignment: Qt.AlignHCenter
                             font.family: ThemeBackend.fontFamily; font.weight: Font.Bold; font.pixelSize: window.s(10)
-                            color: isMyDisconnecting ? ThemeBackend.overlay1 : (coreGlass.active ? Qt.alpha(ThemeBackend.text, coreMa.containsMouse ? 1.0 : 0.7) : (coreMa.containsMouse ? ThemeBackend.crust : "#99000000"))
+                            color: isMyDisconnecting ? ThemeBackend.overlay1 : (coreGlass.active ? Qt.alpha(ThemeBackend.text, coreMa.containsMouse ? 1.0 : 0.72) : Qt.alpha(ThemeBackend.crust, coreMa.containsMouse ? 1.0 : 0.78))
                             text: isMyDisconnecting ? (I18n.t("network.status.disconnecting") || "Disconnecting...") : (centralCore.disconnectFill > 0.01 ? (I18n.t("network.status.hold") || "Hold to Disconnect") : (I18n.t("network.status.connected") || "Connected"))
+                            Behavior on color { enabled: window.visible; ColorAnimation { duration: 250 } }
+                        }
+                        Text {
+                            Layout.alignment: Qt.AlignHCenter
+                            visible: window.currentConn && !isMyDisconnecting
+                            font.family: ThemeBackend.fontFamily
+                            font.pixelSize: window.s(9.5) - (window.s(1.5) * coreContainer.multiShift)
+                            textFormat: Text.StyledText
+                            readonly property color hlCol: coreGlass.active ? Qt.lighter(window.activeColor, 1.25) : ThemeBackend.crust
+                            readonly property color restCol: coreGlass.active ? Qt.alpha(ThemeBackend.text, 0.72) : Qt.alpha(ThemeBackend.crust, coreMa.containsMouse ? 0.92 : 0.72)
+                            color: restCol
+                            text: window.formatMnemonic("Disconnect", "d", hlCol, restCol)
                             Behavior on color { enabled: window.visible; ColorAnimation { duration: 250 } }
                         }
                     }
@@ -431,6 +443,15 @@ Item {
                                 font.family: ThemeBackend.fontFamily; font.weight: Font.Bold; font.pixelSize: window.s(10)
                                 color: ThemeBackend.text
                                 text: isMyDisconnecting ? (I18n.t("network.status.disconnecting") || "Disconnecting...") : (centralCore.disconnectFill > 0.01 ? (I18n.t("network.status.hold") || "Hold to Disconnect") : (I18n.t("network.status.connected") || "Connected"))
+                            }
+                            Text {
+                                Layout.alignment: Qt.AlignHCenter
+                                visible: window.currentConn && !isMyDisconnecting
+                                font.family: ThemeBackend.fontFamily
+                                font.pixelSize: window.s(9.5) - (window.s(1.5) * coreContainer.multiShift)
+                                textFormat: Text.StyledText
+                                color: ThemeBackend.text
+                                text: window.formatMnemonic("Disconnect", "d", ThemeBackend.text, Qt.alpha(ThemeBackend.text, 0.75))
                             }
                         }
                     }

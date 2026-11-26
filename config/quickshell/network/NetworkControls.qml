@@ -15,6 +15,124 @@ Item {
     anchors.fill: parent
     z: 100
 
+    Rectangle {
+        id: keyHintBar
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: window.s(9)
+        height: window.s(26)
+        width: Math.min(parent.width - window.s(24), hintRow.implicitWidth + window.s(24))
+        radius: height / 2
+        visible: window.visible
+        opacity: window.easeOut(window.animWin(window.introState, 0.25, 0.50))
+        color: hintGlass.active ? "transparent" : Qt.alpha(ThemeBackend.base, Math.min(0.92, ThemeBackend.elementOpacity))
+        border.width: hintGlass.active ? 0 : 1
+        border.color: Qt.alpha(window.activeColor, 0.4)
+
+        GlassFill {
+            id: hintGlass
+            anchors.fill: parent
+            radius: parent.radius
+            tintColor: ThemeBackend.surface0
+            tintAmount: 0.28
+        }
+
+        readonly property var keyHints: {
+            if (window.pendingWifiId !== "") {
+                return [
+                    { key: [], raw: "Enter", text: "connect", act: "" },
+                    { key: [], raw: "Esc", text: "cancel", act: "cancel_pwd" }
+                ];
+            }
+            let h = [
+                { key: ["h", "l"], text: "h/l tab", act: "tab" }
+            ];
+            if (window.currentPower && window.orbitModel.count > 0) {
+                h.push({ key: ["j", "k"], text: "j/k nav", act: "nav" });
+                h.push({ key: "c", text: "connect", act: "connect" });
+            }
+            if (window.currentConn) {
+                h.push({ key: "d", text: "disconnect", act: "disconnect" });
+                if (window.showInfoView) {
+                    h.push({ key: "s", text: "scan", act: "scan" });
+                    h.push({ key: "y", text: "yank ip", act: "yank" });
+                    if (window.activeMode === "bt") h.push({ key: "u", text: "unpair", act: "unpair" });
+                } else {
+                    h.push({ key: "i", text: "info", act: "info" });
+                    h.push({ key: "r", text: "rescan", act: "rescan" });
+                }
+            } else if (window.currentPower) {
+                h.push({ key: "r", text: "rescan", act: "rescan" });
+            }
+            h.push({ key: "p", text: "power", act: "power" });
+            h.push({ key: "q", text: "quit", act: "quit" });
+            return h;
+        }
+
+        Row {
+            id: hintRow
+            anchors.centerIn: parent
+            spacing: window.s(9)
+
+            Repeater {
+                model: keyHintBar.keyHints
+                Row {
+                    id: hintSlot
+                    required property var modelData
+                    required property int index
+                    spacing: window.s(9)
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Text {
+                        visible: hintSlot.index > 0
+                        text: "·"
+                        font.family: ThemeBackend.fontFamily
+                        font.pixelSize: window.s(11)
+                        color: Qt.alpha(ThemeBackend.subtext1, 0.5)
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Text {
+                        readonly property color hlCol: ThemeBackend.liquidGlass ? Qt.lighter(window.activeColor, 1.25) : window.activeColor
+                        readonly property color restCol: hintMa.containsMouse ? ThemeBackend.text : Qt.alpha(ThemeBackend.subtext0, 0.62)
+                        textFormat: Text.StyledText
+                        text: hintSlot.modelData.raw
+                            ? ("<font color=\"" + hlCol + "\"><u><b>" + hintSlot.modelData.raw + "</b></u></font> <font color=\"" + restCol + "\">" + window.escapeHtml(hintSlot.modelData.text) + "</font>")
+                            : window.formatMnemonic(hintSlot.modelData.text, hintSlot.modelData.key, hlCol, restCol)
+                        font.family: ThemeBackend.fontFamily
+                        font.pixelSize: window.s(11.5)
+                        color: restCol
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        MouseArea {
+                            id: hintMa
+                            anchors.fill: parent
+                            anchors.margins: -window.s(3)
+                            hoverEnabled: true
+                            enabled: hintSlot.modelData.act !== ""
+                            cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            onClicked: {
+                                let a = hintSlot.modelData.act;
+                                if (a === "tab") window.nextTab();
+                                else if (a === "nav") window.stepSelection(1);
+                                else if (a === "connect") window.triggerSelected();
+                                else if (a === "disconnect") window.disconnectCurrentDevice();
+                                else if (a === "scan") window.handleScanKey();
+                                else if (a === "info") window.showInfoView = !window.showInfoView;
+                                else if (a === "rescan") window.rescanCurrent();
+                                else if (a === "yank") window.yankIp();
+                                else if (a === "unpair") window.unpairTargetedBtDevice();
+                                else if (a === "power") window.toggleCurrentPower();
+                                else if (a === "quit") window.closePopup();
+                                else if (a === "cancel_pwd") { window.pendingWifiId = ""; window.pendingWifiSsid = ""; window.forceActiveFocus(); }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     Switch {
         id: bottomSwitch
         anchors.bottom: parent.bottom
@@ -37,9 +155,9 @@ Item {
 
         readonly property var availableModes: {
             let m = [];
-            if (window.ethPresent) m.push({ mode: "eth", label: "󰈀  " + (I18n.t("network.tabs.ethernet") || "Ethernet") });
-            if (window.wifiPresent) m.push({ mode: "wifi", label: "󰤨  " + (I18n.t("network.tabs.wifi") || "Wi-Fi") });
-            if (window.btPresent) m.push({ mode: "bt", label: "󰂯 " + (I18n.t("network.tabs.bluetooth") || "Bluetooth") });
+            if (window.ethPresent) m.push({ mode: "eth", key: "e", label: "󰈀  " + (I18n.t("network.tabs.ethernet") || "Ethernet") });
+            if (window.wifiPresent) m.push({ mode: "wifi", key: "w", label: "󰤨  " + (I18n.t("network.tabs.wifi") || "Wi-fi") });
+            if (window.btPresent) m.push({ mode: "bt", key: "b", label: "󰂯 " + (I18n.t("network.tabs.bluetooth") || "Bluetooth") });
             return m;
         }
 
@@ -51,6 +169,24 @@ Item {
                 }
             }
             return opts;
+        }
+
+        optionDisplayTexts: {
+            let arr = [];
+            let modes = availableModes;
+            for (let i = 0; i < modes.length; i++) {
+                if (modes[i] && modes[i].label) {
+                    let isSel = (i === bottomSwitch.currentIndex);
+                    let hlCol = isSel
+                        ? (ThemeBackend.liquidGlass ? Qt.lighter(window.activeColor, 1.35) : ThemeBackend.crust)
+                        : (ThemeBackend.liquidGlass ? Qt.lighter(window.activeColor, 1.25) : window.activeColor);
+                    let restCol = isSel
+                        ? (ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.text, 0.72) : Qt.alpha(ThemeBackend.crust, 0.74))
+                        : Qt.alpha(ThemeBackend.text, 0.65);
+                    arr.push(window.formatMnemonic(modes[i].label, modes[i].key, hlCol, restCol));
+                }
+            }
+            return arr;
         }
 
         Binding on currentIndex {
@@ -158,6 +294,7 @@ Item {
             Text {
                 id: pwrIcon
                 anchors.centerIn: parent
+                anchors.verticalCenterOffset: -(1.0 - powerToggleContainer.pwrMorph) * window.s(9)
                 font.family: ThemeBackend.fontFamily
                 font.pixelSize: window.s(54)
                 scale: 1.0 + ((20.0 / 54.0) - 1.0) * powerToggleContainer.pwrMorph
@@ -178,6 +315,20 @@ Item {
                 }
             }
 
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: pwrIcon.bottom
+                anchors.topMargin: window.s(2)
+                opacity: Math.max(0, 1.0 - powerToggleContainer.pwrMorph * 2.0)
+                visible: opacity > 0.01
+                textFormat: Text.StyledText
+                text: window.formatMnemonic("Power", "p", ThemeBackend.liquidGlass ? Qt.lighter(window.activeColor, 1.3) : window.activeColor, Qt.alpha(ThemeBackend.subtext0, 0.68))
+                font.family: ThemeBackend.fontFamily
+                font.pixelSize: window.s(11)
+                font.weight: Font.Bold
+                color: ThemeBackend.subtext1
+            }
+
             MouseArea {
                 id: pwrMa
                 anchors.fill: parent
@@ -187,6 +338,32 @@ Item {
                 onClicked: {
                     window.toggleCurrentPower();
                 }
+            }
+        }
+
+        Rectangle {
+            id: pwrKeyBadge
+            anchors.top: powerBtnRect.top
+            anchors.right: powerBtnRect.right
+            anchors.topMargin: -window.s(4)
+            anchors.rightMargin: -window.s(4)
+            width: window.s(18)
+            height: window.s(18)
+            radius: width / 2
+            color: ThemeBackend.mantle
+            border.width: 1
+            border.color: window.activeColor
+            opacity: Math.max(0, (powerToggleContainer.pwrMorph - 0.65) / 0.35)
+            visible: opacity > 0.01
+            z: 5
+
+            Text {
+                anchors.centerIn: parent
+                textFormat: Text.StyledText
+                text: window.formatMnemonic("P", "p", Qt.lighter(window.activeColor, ThemeBackend.liquidGlass ? 1.35 : 1.15))
+                font.family: ThemeBackend.fontFamily
+                font.pixelSize: window.s(10)
+                color: window.activeColor
             }
         }
     }

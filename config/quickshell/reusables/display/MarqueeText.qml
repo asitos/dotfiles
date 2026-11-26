@@ -6,6 +6,7 @@ Item {
     id: root
 
     property string text: ""
+    property int textFormat: Text.PlainText
     property color color: ThemeBackend.text
     property alias font: mainText.font
     property int horizontalAlignment: Text.AlignLeft
@@ -59,6 +60,7 @@ Item {
             Text {
                 id: mainText
                 text: root.text
+                textFormat: root.textFormat
                 color: root.color
                 font.family: ThemeBackend.fontFamily
                 font.pixelSize: 12
@@ -67,6 +69,7 @@ Item {
             Text {
                 id: cloneText
                 text: root.text
+                textFormat: root.textFormat
                 color: root.color
                 font.family: mainText.font.family
                 font.pixelSize: mainText.font.pixelSize

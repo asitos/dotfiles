@@ -23,7 +23,7 @@ PanelWindow {
     Shortcut {
         sequence: "Escape"
         context: Qt.WindowShortcut
-        enabled: masterWindow.isVisible && !masterWindow.isClosing
+        enabled: masterWindow.isVisible && !masterWindow.isClosing && !(widgetStack.currentItem && widgetStack.currentItem.handlesEscape)
         onActivated: switchWidget("hidden", "")
     }
 
@@ -230,9 +230,9 @@ PanelWindow {
 
     WlrLayershell.namespace: "qs-master"
     WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.keyboardFocus: masterWindow.isVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
     exclusionMode: ExclusionMode.Ignore
-    focusable: true
 
     implicitWidth: masterWindow.screen ? masterWindow.screen.width : 0
     implicitHeight: masterWindow.screen ? masterWindow.screen.height : 0
@@ -561,7 +561,8 @@ PanelWindow {
 
     onIsVisibleChanged: {
         if (isVisible) {
-            widgetStack.forceActiveFocus();
+            if (widgetStack.currentItem) widgetStack.currentItem.forceActiveFocus();
+            else widgetStack.forceActiveFocus();
         } else if (currentActive === "hidden" && !delayedClear.running) {
             for (let k in widgetCache) {
                 let it = widgetCache[k];
@@ -646,6 +647,7 @@ PanelWindow {
                 popExit: null
 
                 Keys.onEscapePressed: (event) => {
+                    if (widgetStack.currentItem && widgetStack.currentItem.handlesEscape) return;
                     switchWidget("hidden", "");
                     event.accepted = true;
                 }

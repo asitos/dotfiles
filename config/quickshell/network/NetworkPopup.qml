@@ -14,6 +14,7 @@ Item {
     id: popupWindowRoot
     visible: false
     focus: true
+    readonly property bool handlesEscape: true
 
     function animWin(t, a, b) {
         if (t <= a) return 0.0;
@@ -85,9 +86,18 @@ Item {
         if (t === "wifi" || t === "wlan") t = "wifi";
         else if (t === "bt" || t === "bluetooth") t = "bt";
         else if (t === "eth" || t === "ethernet" || t === "wired") t = "eth";
-        if (t === "wifi" && popupWindowRoot.wifiPresent) popupWindowRoot.activeMode = "wifi";
-        else if (t === "bt" && popupWindowRoot.btPresent) popupWindowRoot.activeMode = "bt";
-        else if (t === "eth" && popupWindowRoot.ethPresent) popupWindowRoot.activeMode = "eth";
+        let target = "";
+        if (t === "wifi" && popupWindowRoot.wifiPresent) target = "wifi";
+        else if (t === "bt" && popupWindowRoot.btPresent) target = "bt";
+        else if (t === "eth" && popupWindowRoot.ethPresent) target = "eth";
+        if (target !== "" && popupWindowRoot.activeMode !== target) {
+            popupWindowRoot.pendingWifiId = "";
+            popupWindowRoot.pendingWifiSsid = "";
+            popupWindowRoot.powerAnimAllowed = false;
+            powerAnimBlocker.restart();
+            popupWindowRoot.activeMode = target;
+            if (popupWindowRoot.visible) Sounds.playSfx("network/switch.wav");
+        }
     }
 
     property real introState: 0.0
@@ -168,10 +178,10 @@ Item {
             popupWindowRoot.rebuildBtData(false);
             if (popupWindowRoot.activeMode === "bt" && !btProfilePoller.running) btProfilePoller.running = true;
             if (popupWindowRoot.selectedIndex < 0 && popupWindowRoot.orbitModel.count > 0) {
-                popupWindowRoot.selectedIndex = 0;
+                popupWindowRoot.selectEdge(false);
             }
         } else {
-            popupWindowRoot.selectedIndex = -1;
+            popupWindowRoot.selectIndex(-1);
             exitAnim.stop();
             popupWindowRoot.exitOpacity = 1.0;
             popupWindowRoot.stopBtScan();
@@ -498,17 +508,262 @@ Item {
     readonly property string modeFilePath: cacheDir + "/mode"
 
     property int selectedIndex: -1
+    property string selectedItemId: ""
+
+    function escapeHtml(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function formatMnemonic(text, keys, highlightColor, restColor) {
+        let str = String(text || "");
+        let restCol = restColor !== undefined && restColor !== null && String(restColor) !== "" ? String(restColor) : "";
+        let wrapRest = function(seg) {
+            if (!seg) return "";
+            let esc = escapeHtml(seg);
+            return restCol !== "" ? ("<font color=\"" + restCol + "\">" + esc + "</font>") : esc;
+        };
+        if (!str || keys === undefined || keys === null || keys === "") return wrapRest(str);
+        let col = String(highlightColor || popupWindowRoot.activeColor);
+        if (typeof keys === "number") {
+            if (keys < 0 || keys >= str.length) return wrapRest(str);
+            return wrapRest(str.slice(0, keys))
+                + "<font color=\"" + col + "\"><u><b>" + escapeHtml(str.charAt(keys)) + "</b></u></font>"
+                + wrapRest(str.slice(keys + 1));
+        }
+        let list = Array.isArray(keys) ? keys : [String(keys)];
+        let remaining = {};
+        let hasAny = false;
+        for (let i = 0; i < list.length; i++) {
+            let lk = String(list[i] || "").toLowerCase();
+            if (lk.length === 1) { remaining[lk] = true; hasAny = true; }
+        }
+        if (!hasAny) return wrapRest(str);
+        let out = "";
+        let buf = "";
+        for (let i = 0; i < str.length; i++) {
+            let ch = str.charAt(i);
+            let lch = ch.toLowerCase();
+            if (remaining[lch]) {
+                delete remaining[lch];
+                out += wrapRest(buf);
+                buf = "";
+                out += "<font color=\"" + col + "\"><u><b>" + escapeHtml(ch) + "</b></u></font>";
+            } else {
+                buf += ch;
+            }
+        }
+        out += wrapRest(buf);
+        return out;
+    }
+
+    property var deviceKeyMap: ({})
+    property var deviceShortcutList: []
+
+    function isWordStartChar(str, idx) {
+        if (idx === 0) return true;
+        let prev = str.charAt(idx - 1);
+        if (!/[a-zA-Z0-9]/.test(prev)) return true;
+        let cur = str.charAt(idx);
+        return /[A-Z]/.test(cur) && /[a-z]/.test(prev);
+    }
+
+    function rebuildDeviceShortcuts() {
+        let inScanView = !(popupWindowRoot.currentConn && popupWindowRoot.showInfoView)
+            && (popupWindowRoot.activeMode === "wifi" || popupWindowRoot.activeMode === "bt")
+            && popupWindowRoot.currentPower;
+        if (!inScanView) {
+            if (popupWindowRoot.deviceShortcutList.length > 0 || Object.keys(popupWindowRoot.deviceKeyMap).length > 0) {
+                popupWindowRoot.deviceKeyMap = ({});
+                popupWindowRoot.deviceShortcutList = [];
+            }
+            return;
+        }
+
+        let reserved = {
+            b: 1, c: 1, d: 1, g: 1, h: 1, i: 1, j: 1, k: 1,
+            l: 1, p: 1, q: 1, r: 1, s: 1, w: 1,
+            "1": 1, "2": 1, "3": 1
+        };
+        if (popupWindowRoot.ethPresent) reserved["e"] = 1;
+        if (popupWindowRoot.activeMode === "bt") reserved["u"] = 1;
+
+        let fallbackDigits = ["4", "5", "6", "7", "8", "9", "0"];
+        let cards = [];
+        for (let idx = 0; idx < orbitDisplayModel.count; idx++) {
+            let it = orbitDisplayModel.get(idx);
+            if (!it || it.isInfoNode || it.id === "action_settings" || !it.isActionable) continue;
+            let label = it.name || it.ssid || "";
+            let letterCands = [];
+            let digitCands = [];
+            let uniqueLetters = {};
+            let bestTier = 99;
+
+            for (let ci = 0; ci < label.length; ci++) {
+                let lch = label.charAt(ci).toLowerCase();
+                if (reserved[lch]) continue;
+                if (/^[a-z]$/.test(lch)) {
+                    let ws = isWordStartChar(label, ci);
+                    let tier = (ci < 14 ? (ws ? 0 : 1) : (ws ? 2 : 3));
+                    if (tier < bestTier) bestTier = tier;
+                    letterCands.push({ key: lch, pos: ci, tier: tier });
+                    uniqueLetters[lch] = true;
+                } else if (fallbackDigits.indexOf(lch) !== -1) {
+                    digitCands.push({ key: lch, pos: ci, tier: 4 });
+                }
+            }
+
+            letterCands.sort(function(a, b) {
+                return a.tier !== b.tier ? (a.tier - b.tier) : (a.pos - b.pos);
+            });
+            cards.push({
+                id: it.id,
+                label: label,
+                letterCands: letterCands,
+                digitCands: digitCands,
+                uniqueCount: Object.keys(uniqueLetters).length,
+                bestTier: bestTier
+            });
+        }
+
+        cards.sort(function(a, b) {
+            if (a.uniqueCount !== b.uniqueCount) return a.uniqueCount - b.uniqueCount;
+            if (a.bestTier !== b.bestTier) return a.bestTier - b.bestTier;
+            return a.id.localeCompare(b.id);
+        });
+
+        let used = {};
+        let map = {};
+        let shortcuts = [];
+        let unassigned = [];
+
+        for (let idx = 0; idx < cards.length; idx++) {
+            let c = cards[idx];
+            let picked = null;
+            for (let j = 0; j < c.letterCands.length; j++) {
+                let cand = c.letterCands[j];
+                if (!used[cand.key]) { picked = cand; break; }
+            }
+            if (picked) {
+                used[picked.key] = true;
+                map[c.id] = { key: picked.key, matchIdx: picked.pos, isPrefix: false };
+                shortcuts.push({ key: picked.key, id: c.id });
+            } else {
+                unassigned.push(c);
+            }
+        }
+
+        let extraPool = ["4", "5", "6", "7", "8", "9", "0", "a", "f", "m", "n", "o", "t", "v", "x", "y", "z", "e", "u"];
+        for (let idx = 0; idx < unassigned.length; idx++) {
+            let c = unassigned[idx];
+            let picked = null;
+            for (let j = 0; j < c.digitCands.length; j++) {
+                if (!used[c.digitCands[j].key]) { picked = c.digitCands[j]; break; }
+            }
+            if (picked) {
+                used[picked.key] = true;
+                map[c.id] = { key: picked.key, matchIdx: picked.pos, isPrefix: false };
+                shortcuts.push({ key: picked.key, id: c.id });
+                continue;
+            }
+            for (let j = 0; j < extraPool.length; j++) {
+                let ek = extraPool[j];
+                if (!reserved[ek] && !used[ek]) {
+                    used[ek] = true;
+                    map[c.id] = { key: ek, matchIdx: -1, isPrefix: true };
+                    shortcuts.push({ key: ek, id: c.id });
+                    break;
+                }
+            }
+        }
+
+        popupWindowRoot.deviceKeyMap = map;
+        popupWindowRoot.deviceShortcutList = shortcuts;
+    }
+
+    function triggerDeviceById(targetId) {
+        if (!targetId) return;
+        for (let i = 0; i < popupWindowRoot.orbitModel.count; i++) {
+            let it = popupWindowRoot.orbitModel.get(i);
+            if (it && it.id === targetId) {
+                popupWindowRoot.selectIndex(i);
+                let item = (i >= 0 && i < cardLayer.repeater.count) ? cardLayer.repeater.itemAt(i) : null;
+                if (item && typeof item.handleTrigger === "function") {
+                    item.handleTrigger();
+                }
+                return;
+            }
+        }
+    }
+
+    function cardMnemonicKey(itemId) {
+        let id = String(itemId || "");
+        if (id === "action_scan") return "s";
+        if (id === "action_settings") return "i";
+        if (id.indexOf("forget_") === 0) return "u";
+        if (id === "action_portal") return "n";
+        return "";
+    }
+
+    function selectIndex(idx) {
+        let count = popupWindowRoot.orbitModel.count;
+        if (count <= 0 || idx < 0 || idx >= count) {
+            popupWindowRoot.selectedIndex = -1;
+            popupWindowRoot.selectedItemId = "";
+            return;
+        }
+        popupWindowRoot.selectedIndex = idx;
+        let item = popupWindowRoot.orbitModel.get(idx);
+        popupWindowRoot.selectedItemId = (item && item.id) ? item.id : "";
+    }
+
+    function isIndexSelectable(idx, requireActionable) {
+        if (idx < 0 || idx >= popupWindowRoot.orbitModel.count) return false;
+        if (!requireActionable) return true;
+        let item = popupWindowRoot.orbitModel.get(idx);
+        return !!(item && item.isActionable);
+    }
+
+    function hasAnyActionable() {
+        for (let i = 0; i < popupWindowRoot.orbitModel.count; i++) {
+            let item = popupWindowRoot.orbitModel.get(i);
+            if (item && item.isActionable) return true;
+        }
+        return false;
+    }
 
     function stepSelection(delta) {
         let count = popupWindowRoot.orbitModel.count;
         if (count <= 0) {
-            popupWindowRoot.selectedIndex = -1;
+            selectIndex(-1);
             return;
         }
-        if (popupWindowRoot.selectedIndex < 0) {
-            popupWindowRoot.selectedIndex = delta > 0 ? 0 : (count - 1);
-        } else {
-            popupWindowRoot.selectedIndex = (popupWindowRoot.selectedIndex + delta + count) % count;
+        let reqAct = hasAnyActionable();
+        let start = popupWindowRoot.selectedIndex;
+        if (start < 0 || start >= count) {
+            start = delta > 0 ? -1 : 0;
+        }
+        for (let step = 1; step <= count; step++) {
+            let cand = (start + delta * step + count * 2) % count;
+            if (isIndexSelectable(cand, reqAct)) {
+                selectIndex(cand);
+                return;
+            }
+        }
+    }
+
+    function selectEdge(toEnd) {
+        let count = popupWindowRoot.orbitModel.count;
+        if (count <= 0) {
+            selectIndex(-1);
+            return;
+        }
+        let reqAct = hasAnyActionable();
+        for (let i = 0; i < count; i++) {
+            let idx = toEnd ? (count - 1 - i) : i;
+            if (isIndexSelectable(idx, reqAct)) {
+                selectIndex(idx);
+                return;
+            }
         }
     }
 
@@ -518,6 +773,92 @@ Item {
         if (item && typeof item.handleTrigger === "function") {
             item.handleTrigger();
         }
+    }
+
+    function triggerCardById(idMatch, isPrefix) {
+        for (let i = 0; i < cardLayer.repeater.count; i++) {
+            let item = cardLayer.repeater.itemAt(i);
+            if (!item) continue;
+            let match = isPrefix ? (item.itemId.indexOf(idMatch) === 0) : (item.itemId === idMatch);
+            if (match && typeof item.handleTrigger === "function") {
+                item.handleTrigger();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function forgetBtDevice(macToForget) {
+        if (!macToForget) return;
+        popupWindowRoot.withBtOpLock(macToForget, function() {
+            let devList = popupWindowRoot.getBtDevicesList();
+            let devToForget = null;
+            for (let i = 0; i < devList.length; i++) {
+                if (devList[i] && devList[i].address === macToForget) { devToForget = devList[i]; break; }
+            }
+            if (!devToForget) return;
+
+            let map = Object.assign({}, popupWindowRoot.btDeviceMap);
+            delete map[macToForget];
+            popupWindowRoot.btDeviceMap = map;
+
+            let bt = popupWindowRoot.busyTasks; delete bt[macToForget]; popupWindowRoot.busyTasks = Object.assign({}, bt);
+            let dd = popupWindowRoot.disconnectingDevices; delete dd[macToForget]; popupWindowRoot.disconnectingDevices = Object.assign({}, dd);
+            if (popupWindowRoot.connectingId === macToForget) popupWindowRoot.connectingId = "";
+            if (popupWindowRoot.failedId === macToForget) popupWindowRoot.failedId = "";
+
+            devToForget.forget();
+            popupWindowRoot.requestBtRebuild();
+        });
+    }
+
+    function unpairTargetedBtDevice() {
+        if (popupWindowRoot.activeMode !== "bt") return;
+        let sel = (popupWindowRoot.selectedIndex >= 0 && popupWindowRoot.selectedIndex < popupWindowRoot.orbitModel.count)
+            ? popupWindowRoot.orbitModel.get(popupWindowRoot.selectedIndex)
+            : null;
+        if (sel) {
+            if (sel.id && sel.id.indexOf("forget_") === 0) {
+                forgetBtDevice(sel.id.substring(7));
+                return;
+            }
+            if (sel.parentIndex >= 0 && sel.parentIndex < popupWindowRoot.currentCores.length && popupWindowRoot.currentCores[sel.parentIndex]) {
+                forgetBtDevice(popupWindowRoot.currentCores[sel.parentIndex].mac || "");
+                return;
+            }
+            if (!sel.isInfoNode && sel.mac && sel.action === "Connect") {
+                forgetBtDevice(sel.mac);
+                return;
+            }
+        }
+        for (let i = 0; i < popupWindowRoot.orbitModel.count; i++) {
+            let it = popupWindowRoot.orbitModel.get(i);
+            if (it && it.id && it.id.indexOf("forget_") === 0) {
+                forgetBtDevice(it.id.substring(7));
+                return;
+            }
+        }
+    }
+
+    function yankIp() {
+        let selIdx = popupWindowRoot.selectedIndex;
+        if (selIdx >= 0 && selIdx < cardLayer.repeater.count) {
+            let selItem = cardLayer.repeater.itemAt(selIdx);
+            if (selItem && (selItem.itemId === "ip" || selItem.itemId.indexOf("ip_") === 0)) {
+                selItem.handleTrigger();
+                return;
+            }
+        }
+        if (!triggerCardById("ip", false)) {
+            triggerCardById("ip_", true);
+        }
+    }
+
+    function handleScanKey() {
+        if (popupWindowRoot.currentConn && popupWindowRoot.showInfoView) {
+            popupWindowRoot.showInfoView = false;
+        }
+        popupWindowRoot.rescanCurrent();
     }
 
     function nextTab() {
@@ -603,15 +944,35 @@ Item {
     }
 
     function disconnectCurrentDevice() {
+        if (!popupWindowRoot.currentConn) return;
+        let dd = Object.assign({}, popupWindowRoot.disconnectingDevices);
+        let any = false;
         if (popupWindowRoot.activeMode === "bt") {
             let devList = popupWindowRoot.getBtDevicesList();
             for (let i = 0; i < devList.length; i++) {
-                if (devList[i] && devList[i].connected) devList[i].disconnect();
+                if (devList[i] && devList[i].connected) {
+                    if (devList[i].address) dd[devList[i].address] = true;
+                    devList[i].disconnect();
+                    any = true;
+                }
             }
         } else if (popupWindowRoot.activeMode === "eth") {
-            if (popupWindowRoot.ethDevice) popupWindowRoot.ethDevice.disconnect();
+            if (popupWindowRoot.ethDevice) {
+                if (popupWindowRoot.ethDeviceName) dd[popupWindowRoot.ethDeviceName] = true;
+                popupWindowRoot.ethDevice.disconnect();
+                any = true;
+            }
         } else if (popupWindowRoot.activeMode === "wifi") {
-            if (popupWindowRoot.wifiDevice) popupWindowRoot.wifiDevice.disconnect();
+            if (popupWindowRoot.wifiDevice) {
+                if (popupWindowRoot.wifiConnected && popupWindowRoot.wifiConnected.ssid) dd[popupWindowRoot.wifiConnected.ssid] = true;
+                popupWindowRoot.wifiDevice.disconnect();
+                any = true;
+            }
+        }
+        if (any) {
+            Sounds.playSfx("network/disconnect.wav");
+            popupWindowRoot.disconnectingDevices = dd;
+            popupWindowRoot.busyTimeoutTimer.restart();
         }
     }
 
@@ -644,13 +1005,13 @@ Item {
     }
 
     Shortcut {
-        sequences: ["Down", "j", "J"]
+        sequences: ["Down", "j"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.stepSelection(1)
     }
 
     Shortcut {
-        sequences: ["Up", "k", "K"]
+        sequences: ["Up", "k"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.stepSelection(-1)
     }
@@ -658,81 +1019,114 @@ Item {
     Shortcut {
         sequences: ["Home", "g"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
-        onActivated: {
-            if (popupWindowRoot.orbitModel.count > 0) popupWindowRoot.selectedIndex = 0;
-        }
+        onActivated: popupWindowRoot.selectEdge(false)
     }
 
     Shortcut {
-        sequences: ["End", "G"]
+        sequences: ["End", "Shift+G"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
-        onActivated: {
-            if (popupWindowRoot.orbitModel.count > 0) popupWindowRoot.selectedIndex = popupWindowRoot.orbitModel.count - 1;
-        }
+        onActivated: popupWindowRoot.selectEdge(true)
     }
 
     Shortcut {
-        sequences: ["Right", "l", "L", "Tab"]
+        sequences: ["Right", "l", "Tab"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.nextTab()
     }
 
     Shortcut {
-        sequences: ["Left", "h", "H", "Backtab"]
+        sequences: ["Left", "h", "Backtab", "Shift+Tab"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.prevTab()
     }
 
     Shortcut {
-        sequence: "1"
+        sequences: ["1", "e"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === "" && popupWindowRoot.ethPresent
         onActivated: popupWindowRoot.gotoTab("eth")
     }
 
     Shortcut {
-        sequence: "2"
+        sequences: ["2", "w"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === "" && popupWindowRoot.wifiPresent
         onActivated: popupWindowRoot.gotoTab("wifi")
     }
 
     Shortcut {
-        sequence: "3"
+        sequences: ["3", "b"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === "" && popupWindowRoot.btPresent
         onActivated: popupWindowRoot.gotoTab("bt")
     }
 
     Shortcut {
-        sequences: ["Return", "Enter", "Space", "c", "C"]
+        sequences: ["Return", "Enter", "Space", "c"]
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.triggerSelected()
     }
 
     Shortcut {
-        sequences: ["d", "D"]
+        sequence: "d"
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.disconnectCurrentDevice()
     }
 
     Shortcut {
-        sequences: ["p", "P", "x", "X"]
+        sequence: "p"
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.toggleCurrentPower()
     }
 
     Shortcut {
-        sequences: ["r", "R"]
+        sequence: "s"
+        enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
+        onActivated: popupWindowRoot.handleScanKey()
+    }
+
+    Shortcut {
+        sequence: "r"
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.rescanCurrent()
     }
 
     Shortcut {
-        sequences: ["i", "I"]
-        enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
+        sequence: "i"
+        enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === "" && popupWindowRoot.currentConn
         onActivated: popupWindowRoot.showInfoView = !popupWindowRoot.showInfoView
     }
 
     Shortcut {
-        sequences: ["q", "Q"]
+        sequence: "u"
+        enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === "" && popupWindowRoot.activeMode === "bt"
+        onActivated: popupWindowRoot.unpairTargetedBtDevice()
+    }
+
+    Shortcut {
+        sequence: "n"
+        enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === "" && popupWindowRoot.currentConn && popupWindowRoot.showInfoView
+        onActivated: popupWindowRoot.triggerCardById("action_portal", false)
+    }
+
+    Shortcut {
+        sequence: "y"
+        enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === "" && popupWindowRoot.currentConn && popupWindowRoot.showInfoView
+        onActivated: popupWindowRoot.yankIp()
+    }
+
+    Instantiator {
+        model: popupWindowRoot.deviceShortcutList
+        delegate: Shortcut {
+            required property var modelData
+            sequence: modelData.key
+            enabled: popupWindowRoot.visible
+                && popupWindowRoot.pendingWifiId === ""
+                && popupWindowRoot.currentPower
+                && !(popupWindowRoot.currentConn && popupWindowRoot.showInfoView)
+            onActivated: popupWindowRoot.triggerDeviceById(modelData.id)
+        }
+    }
+
+    Shortcut {
+        sequence: "q"
         enabled: popupWindowRoot.visible && popupWindowRoot.pendingWifiId === ""
         onActivated: popupWindowRoot.closePopup()
     }
@@ -744,6 +1138,7 @@ Item {
             if (popupWindowRoot.pendingWifiId !== "") {
                 popupWindowRoot.pendingWifiId = "";
                 popupWindowRoot.pendingWifiSsid = "";
+                popupWindowRoot.forceActiveFocus();
             } else {
                 popupWindowRoot.closePopup();
             }
@@ -754,6 +1149,7 @@ Item {
         if (popupWindowRoot.pendingWifiId !== "") {
             popupWindowRoot.pendingWifiId = "";
             popupWindowRoot.pendingWifiSsid = "";
+            popupWindowRoot.forceActiveFocus();
             event.accepted = true;
         } else {
             popupWindowRoot.closePopup();
@@ -771,6 +1167,7 @@ Item {
     property var btAudioProfiles: ({})
 
     property bool ethPresent: false
+    onEthPresentChanged: rebuildDeviceShortcuts()
     property bool wifiPresent: false
     property bool btPresent: false
 
@@ -878,7 +1275,7 @@ Item {
 
     readonly property string scriptsDir: Caching.qsDir + "/network"
 
-    readonly property color sharedAccent: Qt.lighter(ThemeBackend.sapphire, 1.15)
+    readonly property color sharedAccent: ThemeBackend.blue
     readonly property color btAccent: ThemeBackend.mauve
 
     property string activeMode: "wifi"
@@ -1093,7 +1490,9 @@ Item {
     }
 
     onActiveModeChanged: {
-        popupWindowRoot.selectedIndex = popupWindowRoot.orbitModel.count > 0 ? 0 : -1;
+        popupWindowRoot.selectedIndex = -1;
+        popupWindowRoot.selectedItemId = "";
+        popupWindowRoot.selectEdge(false);
         popupWindowRoot.cardIntroDelay = 0;
         if (!popupWindowRoot.ignoreNextModeFileUpdate) {
             modeFileWriter.setText(popupWindowRoot.activeMode + "\n");
@@ -1145,11 +1544,22 @@ Item {
             for (let i = 0; i < src.count; i++) arr.push(src.get(i));
         }
         popupWindowRoot.syncModel(orbitDisplayModel, arr);
-        if (popupWindowRoot.selectedIndex >= orbitDisplayModel.count) {
-            popupWindowRoot.selectedIndex = Math.max(0, orbitDisplayModel.count - 1);
-        } else if (popupWindowRoot.selectedIndex < 0 && orbitDisplayModel.count > 0) {
-            popupWindowRoot.selectedIndex = 0;
+        let foundIdx = -1;
+        if (popupWindowRoot.selectedItemId !== "") {
+            for (let i = 0; i < orbitDisplayModel.count; i++) {
+                let it = orbitDisplayModel.get(i);
+                if (it && it.id === popupWindowRoot.selectedItemId) {
+                    foundIdx = i;
+                    break;
+                }
+            }
         }
+        if (foundIdx >= 0 && isIndexSelectable(foundIdx, hasAnyActionable())) {
+            popupWindowRoot.selectedIndex = foundIdx;
+        } else {
+            popupWindowRoot.selectEdge(false);
+        }
+        popupWindowRoot.rebuildDeviceShortcuts();
     }
 
     function syncModel(listModel, dataArray) {
@@ -1259,7 +1669,7 @@ Item {
     }
 
     readonly property bool currentPower: activeMode === "eth" ? popupWindowRoot.ethPower === "on" : (activeMode === "wifi" ? popupWindowRoot.wifiPower === "on" : popupWindowRoot.btPower === "on")
-    onCurrentPowerChanged: { syncCores(); }
+    onCurrentPowerChanged: { syncCores(); rebuildDeviceShortcuts(); }
 
     readonly property bool currentPowerPending: activeMode === "eth" ? popupWindowRoot.ethPowerPending : (activeMode === "wifi" ? popupWindowRoot.wifiPowerPending : popupWindowRoot.btPowerPending)
     readonly property bool currentConn: activeMode === "eth" ? popupWindowRoot.isEthConn : (activeMode === "wifi" ? popupWindowRoot.isWifiConn : popupWindowRoot.isBtConn)
